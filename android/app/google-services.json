@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "81850071589",
+    "project_id": "progettoprova-eb74f",
+    "storage_bucket": "progettoprova-eb74f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:81850071589:android:ff37e6ab8c892d8203ddcc",
+        "android_client_info": {
+          "package_name": "com.example.flutter_application_2"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAuKDpVt1eoDoGgXax7NXi7cq_ezrkyxcs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
