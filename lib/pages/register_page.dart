@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:uuid/uuid.dart';
@@ -39,11 +40,17 @@ class _RegisterPageState extends State<RegisterPage> {
   Future signUp() async {
     // create user
     if (passwordConfirmed()) {
-      await FirebaseAuth.instance.createUserWithEmailAndPassword(
+      final user = await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: _emailController.text.trim(),
         password: _passwordController.text.trim(),
       );
+      if (kDebugMode) {
+        // ignore: prefer_interpolation_to_compose_strings
+        print("CIAO SONO USER DATA" );
+        print(user.user!.uid);
+      }
 
+      final uid = user.user!.uid;
       // add user details in database
 
       addUserDetails(
@@ -52,7 +59,7 @@ class _RegisterPageState extends State<RegisterPage> {
         _emailController.text.trim(),
         int.parse(_ageController.text.trim()),
         DateTime.now().toString(),
-        uuid.v4().toString(),
+        uid,
       );
     }
   }
@@ -63,15 +70,15 @@ class _RegisterPageState extends State<RegisterPage> {
     String email,
     int age,
     String regDate,
-    String uuid,
+    String uid,
   ) async {
-    await FirebaseFirestore.instance.collection('users').add({
+    await FirebaseFirestore.instance.collection('users').doc(uid).set({
       'first name:': firstName,
       'last name:': lastName,
       'email:': email,
       'age:': age,
       'registration date': regDate,
-      'uid': uuid,
+      'uid': uid,
       'role': "user",
     });
   }
