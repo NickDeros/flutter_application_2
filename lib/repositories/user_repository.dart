@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_application_2/models/user_model.dart';
 
 class UserRepo {
   
@@ -23,4 +24,9 @@ class UserRepo {
     });
   }
   
+
+  Future<UserModel> getUser(String uid) async {
+    userData = await db.collection('users').doc(uid).get();
+  }
+
 }
