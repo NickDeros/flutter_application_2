@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_application_2/repositories/user_repository.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -52,8 +53,8 @@ class _RegisterPageState extends State<RegisterPage> {
 
       final uid = user.user!.uid;
       // add user details in database
-
-      addUserDetails(
+      final userRepo = UserRepo();
+      userRepo.addUser(
         _firstnameController.text.trim(),
         _lastNameController.text.trim(),
         _emailController.text.trim(),
@@ -62,25 +63,6 @@ class _RegisterPageState extends State<RegisterPage> {
         uid,
       );
     }
-  }
-
-  Future addUserDetails(
-    String firstName,
-    String lastName,
-    String email,
-    int age,
-    String regDate,
-    String uid,
-  ) async {
-    await FirebaseFirestore.instance.collection('users').doc(uid).set({
-      'first name:': firstName,
-      'last name:': lastName,
-      'email:': email,
-      'age:': age,
-      'registration date': regDate,
-      'uid': uid,
-      'role': "user",
-    });
   }
 
   bool passwordConfirmed() {
