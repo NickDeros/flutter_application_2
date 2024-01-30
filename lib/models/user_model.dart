@@ -1,26 +1,28 @@
 
+// ignore_for_file: non_constant_identifier_names
+
 class UserModel {
-  String firstName;
-  String lastName;
+  String first_name;
+  String last_name;
   String email;
   int age;
-  String regDate;
+  String registration_date;
   String uid;
 
   UserModel({
-    required this.firstName,
-    required this.lastName,
+    required this.first_name,
+    required this.last_name,
     required this.email,
     required this.age,
-    required this.regDate,
+    required this.registration_date,
     required this.uid,
   });
 
   UserModel.fromMap(Map<String, dynamic> userMap)
-      : firstName = userMap["firstName"],
-        lastName = userMap["lastName"],
-        email = userMap["email"],
-        age = userMap["age"],
-        regDate = userMap["regDate"],
-        uid = userMap["uid"];
+      : first_name = userMap["first_name"].toString(),
+        last_name = userMap["last_name"].toString(),
+        email = userMap["email"].toString(),
+        age = userMap["age"] as int,
+        registration_date = userMap["regitration_date"].toString(),
+        uid = userMap["uid"].toString();
 }

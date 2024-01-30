@@ -1,6 +1,6 @@
-
 import "package:firebase_auth/firebase_auth.dart";
 import "package:flutter/material.dart";
+import "package:flutter_application_2/repositories/user_repository.dart";
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -10,7 +10,8 @@ class HomePage extends StatefulWidget {
 }
 
 final user = FirebaseAuth.instance.currentUser!;
-final uid = user.uid;
+final userRepo = UserRepo();
+final userData = userRepo.getUser(uid: user.uid);
 
 class _HomePageState extends State<HomePage> {
   @override
@@ -20,7 +21,18 @@ class _HomePageState extends State<HomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text("Signed In as ${user.email}"),
+            FutureBuilder(
+              future: userData,
+              builder: (BuildContext context, AsyncSnapshot snapshot) {
+                if (snapshot.hasData) {
+                  return Text("Signed In as ${snapshot.data.first_name}");
+                } else if(snapshot.hasError) {
+                  return Text(snapshot.error.toString());
+                } else{
+                  return CircularProgressIndicator();
+                }
+              },
+            ),
             MaterialButton(
               onPressed: () {
                 FirebaseAuth.instance.signOut();
