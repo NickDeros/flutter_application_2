@@ -1,7 +1,4 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter_application_2/repositories/user_repository.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/foundation.dart';
+import 'package:flutter_application_2/controllers/registration_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:uuid/uuid.dart';
@@ -26,6 +23,7 @@ class _RegisterPageState extends State<RegisterPage> {
   final _lastNameController = TextEditingController();
   final _ageController = TextEditingController();
   final uuid = const Uuid();
+  final registrationController = RegistrationController();
 
   @override
   void dispose() {
@@ -38,42 +36,6 @@ class _RegisterPageState extends State<RegisterPage> {
     super.dispose();
   }
 
-  Future signUp() async {
-    // create user
-    if (passwordConfirmed()) {
-      final user = await FirebaseAuth.instance.createUserWithEmailAndPassword(
-        email: _emailController.text.trim(),
-        password: _passwordController.text.trim(),
-      );
-      if (kDebugMode) {
-        // ignore: prefer_interpolation_to_compose_strings
-        print("CIAO SONO USER DATA" );
-        print(user.user!.uid);
-      }
-
-      final uid = user.user!.uid;
-      // add user details in database
-      final userRepo = UserRepo();
-      userRepo.addUser(
-        _firstnameController.text.trim(),
-        _lastNameController.text.trim(),
-        _emailController.text.trim(),
-        int.parse(_ageController.text.trim()),
-        DateTime.now().toString(),
-        uid,
-      );
-    }
-  }
-
-  bool passwordConfirmed() {
-    if (_passwordController.text.trim() ==
-        _confirmpasswordController.text.trim()) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -84,15 +46,6 @@ class _RegisterPageState extends State<RegisterPage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                //logo
-                // const Icon(
-                //   Icons.android_rounded,
-                //   size: 100,
-                // ),
-                // const SizedBox(height: 25),
-
-                //Hello Again
-
                 Text(
                   'Helo There!',
                   style: GoogleFonts.bebasNeue(
@@ -247,12 +200,18 @@ class _RegisterPageState extends State<RegisterPage> {
                 ),
                 const SizedBox(height: 10),
 
-                // sign in button
+                // sign up button
 
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 25.0),
                   child: GestureDetector(
-                    onTap: signUp,
+                    onTap: () => registrationController.signUp(
+                        email: _emailController.text,
+                        password: _passwordController.text,
+                        first_name: _firstnameController.text,
+                        last_name: _lastNameController.text,
+                        age: int.parse(_ageController.text),
+                        confirmPassword: _confirmpasswordController.text),
                     child: Container(
                       padding: const EdgeInsets.all(20),
                       decoration: BoxDecoration(

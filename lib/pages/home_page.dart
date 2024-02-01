@@ -9,11 +9,15 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-final user = FirebaseAuth.instance.currentUser!;
-final userRepo = UserRepo();
-final userData = userRepo.getUser(uid: user.uid);
-
 class _HomePageState extends State<HomePage> {
+  String firstName = "...";
+  Future getUser() {
+    final user = FirebaseAuth.instance.currentUser!;
+    final userRepo = UserRepo();
+    final userData = userRepo.getUser(uid: user.uid);
+    return userData;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,14 +25,19 @@ class _HomePageState extends State<HomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            Text(firstName),
             FutureBuilder(
-              future: userData,
+              future: getUser(),
               builder: (BuildContext context, AsyncSnapshot snapshot) {
                 if (snapshot.hasData) {
-                  return Text("Signed In as ${snapshot.data.first_name}");
-                } else if(snapshot.hasError) {
+                  print("hasdata");
+                  print(snapshot.data["first_name"]);
+                  return Text("Signed In as ${snapshot.data["first_name"]}");
+                } else if (snapshot.hasError) {
+                  print("haserror");
                   return Text(snapshot.error.toString());
-                } else{
+                } else {
+                  print("Loading");
                   return CircularProgressIndicator();
                 }
               },
@@ -45,4 +54,10 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
+
+  // void setName(userData) {
+  //   setState(() {
+  //     firstName = userData.first_name;
+  //   });
+  // }
 }
