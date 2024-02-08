@@ -8,6 +8,7 @@ class MovieDetailPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String url = 'https://image.tmdb.org/t/p/original';
     final movieController = MovieController();
     return Scaffold(
       appBar: AppBar(),
@@ -16,7 +17,25 @@ class MovieDetailPage extends StatelessWidget {
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             print("hasdata");
-            return Text(snapshot.data["id"].toString());
+            return Column(
+              children: [
+                Text(snapshot.data["original_title"].toString()),
+                Image(
+                  image: NetworkImage(
+                  url + snapshot.data!['poster_path']),
+                  fit: BoxFit.fill,
+                  filterQuality: FilterQuality.low,
+                  loadingBuilder: (context, child, loadingProgress) {
+                    if (loadingProgress == null) {
+                      return child;
+                    }
+                    return const Center(child: CircularProgressIndicator());
+                  },
+                ),
+                Text(snapshot.data["vote_average"].toString()),
+              ],
+              
+            );
           } else if (snapshot.hasError) {
             print("hasError");
             return Text(
