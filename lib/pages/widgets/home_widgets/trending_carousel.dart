@@ -27,7 +27,7 @@ class TrendingCarousel extends StatelessWidget {
         pageSnapping: true,
       ),
       itemBuilder: (context, itemIndex, pageViewIndex) {
-        int idMovie = snapshot.data![itemIndex]['id'];
+        int movieId = snapshot.data![itemIndex]['id'];
         return ClipRRect(
           borderRadius: BorderRadius.circular(12),
           child: Stack(
@@ -36,7 +36,7 @@ class TrendingCarousel extends StatelessWidget {
                 onTap: () {
                   Navigator.of(context).push(
                     MaterialPageRoute(
-                      builder: (context) =>  MovieDetailPage(idMovie: idMovie),
+                      builder: (context) =>  MovieDetailPage(movieId: movieId),
                     ),
                   );
                 },
