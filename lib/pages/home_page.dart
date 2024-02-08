@@ -1,5 +1,8 @@
 import "package:firebase_auth/firebase_auth.dart";
 import "package:flutter/material.dart";
+import "package:flutter_application_2/controllers/movie_controller.dart";
+import "package:flutter_application_2/pages/movie_detail_page.dart";
+import "package:flutter_application_2/pages/widgets/home_widgets/topRated_carousel.dart";
 import "package:flutter_application_2/pages/widgets/home_widgets/trending_carousel.dart";
 import "package:flutter_application_2/repositories/movie_repository.dart";
 import "package:flutter_application_2/repositories/user_repository.dart";
@@ -14,17 +17,12 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final movieController = MovieController();
   Future getUser() {
     final user = FirebaseAuth.instance.currentUser!;
     final userRepo = UserRepo();
     final userData = userRepo.getUser(uid: user.uid);
     return userData;
-  }
-
-  Future getMovies() async {
-    final movieRepo = MovieRepo();
-    final movieList = await movieRepo.fetchAlbum();
-    return movieList;
   }
 
   @override
@@ -56,6 +54,7 @@ class _HomePageState extends State<HomePage> {
           },
         ),
         actions: [
+          // ICON SEARCH
           IconButton(
             onPressed: () {},
             icon: const Icon(Icons.search, size: 40, color: Colors.white),
@@ -80,14 +79,19 @@ class _HomePageState extends State<HomePage> {
               SizedBox(
                 width: double.infinity,
                 child: FutureBuilder(
-                  future: getMovies(),
+                  future: movieController.getTrendingMovies(),
                   builder: (BuildContext context, AsyncSnapshot snapshot) {
                     if (snapshot.hasData) {
+                      print("hasdata");
                       return TrendingCarousel(snapshot: snapshot);
                     } else if (snapshot.hasError) {
-                      return const Text("error");
+                      print("hasError");
+                      return Text(
+                        snapshot.error.toString(),
+                        style: const TextStyle(color: Colors.red, fontSize: 20),
+                      );
                     } else {
-                      return const CircularProgressIndicator();
+                      return const Center(child: CircularProgressIndicator());
                     }
                   },
                 ),
@@ -102,57 +106,29 @@ class _HomePageState extends State<HomePage> {
               ),
               const SizedBox(height: 32),
               SizedBox(
-                height: 200,
                 width: double.infinity,
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  physics: const BouncingScrollPhysics(),
-                  itemCount: 10,
-                  itemBuilder: (context, index) {
-                    return Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(8),
-                        child: Container(
-                          color: Colors.amber,
-                          height: 200,
-                          width: 150,
-                        ),
-                      ),
-                    );
+                child: FutureBuilder(
+                  future: movieController.getTopRatedMovies(),
+                  builder: (BuildContext context, AsyncSnapshot snapshot) {
+                    if (snapshot.hasData) {
+                      print("hasdata");
+                      return TopRatedCarousel(snapshot: snapshot);
+                    } else if (snapshot.hasError) {
+                      print("hasError");
+                      return Text(
+                        snapshot.error.toString(),
+                        style: const TextStyle(color: Colors.red, fontSize: 20),
+                      );
+                    } else {
+                      return const Center(child: CircularProgressIndicator());
+                    }
                   },
                 ),
-              ),
-              const SizedBox(
-                height: 16,
               ),
               Text(
                 "Top rated movies",
                 style: GoogleFonts.aBeeZee(fontSize: 25, color: Colors.white),
               ),
-              const SizedBox(height: 32),
-              SizedBox(
-                height: 200,
-                width: double.infinity,
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  physics: const BouncingScrollPhysics(),
-                  itemCount: 10,
-                  itemBuilder: (context, index) {
-                    return Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(8),
-                        child: Container(
-                          color: Colors.amber,
-                          height: 200,
-                          width: 150,
-                        ),
-                      ),
-                    );
-                  },
-                ),
-              )
             ],
           ),
         ),
