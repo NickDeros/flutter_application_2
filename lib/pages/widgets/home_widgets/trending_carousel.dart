@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_2/pages/forgot_password_page.dart';
 import 'package:flutter_application_2/pages/login_page.dart';
 import 'package:flutter_application_2/pages/movie_detail_page.dart';
+import 'package:go_router/go_router.dart';
 
 class TrendingCarousel extends StatelessWidget {
   const TrendingCarousel({super.key, required this.snapshot});
@@ -33,13 +34,7 @@ class TrendingCarousel extends StatelessWidget {
           child: Stack(
             children: [
               GestureDetector(
-                onTap: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) =>  MovieDetailPage(movieId: movieId),
-                    ),
-                  );
-                },
+                onTap: () => context.go("/detail_page/$movieId"),
                 child: Image(
                   image: NetworkImage(
                       url + snapshot.data![itemIndex]['poster_path']),

@@ -7,7 +7,7 @@ import 'package:go_router/go_router.dart';
 
 final goRouter = GoRouter(
   debugLogDiagnostics: true,
-  initialLocation: '/login_page',
+  initialLocation: '/',
   routes: [
     GoRoute(
       path: '/',
@@ -15,11 +15,10 @@ final goRouter = GoRouter(
       builder: (context, state) => HomePage(),
       routes: [
         GoRoute(
-          path: 'detail_page',
+          path: 'detail_page/:movieId',
           name: 'detail_page',
           builder: ((context, state) {
-            final movieId = state.pathParameters['id']!;
-            return MovieDetailPage(movieId: int.parse(movieId));
+            return MovieDetailPage(movieId: int.parse(state.pathParameters['movieId']!));
           }),
         ),
       ],
