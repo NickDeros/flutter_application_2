@@ -1,13 +1,12 @@
 import 'package:flutter_application_2/controllers/registration_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:uuid/uuid.dart';
 
 class RegisterPage extends StatefulWidget {
-  final VoidCallback showLoginPage;
   const RegisterPage({
     super.key,
-    required this.showLoginPage,
   });
 
   @override
@@ -246,7 +245,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     ),
                     GestureDetector(
                       behavior: HitTestBehavior.opaque,
-                      onTap: widget.showLoginPage,
+                      onTap: () => context.goNamed('login_page'),
                       child: const Text(
                         'Login Now!',
                         style: TextStyle(

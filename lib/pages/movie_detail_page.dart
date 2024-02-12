@@ -21,8 +21,7 @@ class MovieDetailPage extends StatelessWidget {
               children: [
                 Text(snapshot.data["original_title"].toString()),
                 Image(
-                  image: NetworkImage(
-                  url + snapshot.data!['poster_path']),
+                  image: NetworkImage(url + snapshot.data!['poster_path']),
                   fit: BoxFit.fill,
                   filterQuality: FilterQuality.low,
                   loadingBuilder: (context, child, loadingProgress) {
@@ -33,8 +32,14 @@ class MovieDetailPage extends StatelessWidget {
                   },
                 ),
                 Text(snapshot.data["vote_average"].toString()),
+                // ListView.builder(
+                //   itemCount: snapshot.data['production_companies'].length,
+                //   itemBuilder: (context, index) {
+                //     final item = snapshot.data['production_companies'];
+                //     return ListTile(title: Text(item[index].toString()));
+                //   },
+                // )
               ],
-              
             );
           } else if (snapshot.hasError) {
             print("hasError");

@@ -1,11 +1,13 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_2/pages/forgot_password_page.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class LoginPage extends StatefulWidget {
-  final VoidCallback showRegisterPage;
-  const LoginPage({super.key, required this.showRegisterPage});
+  // final VoidCallback showRegisterPage;
+  // const LoginPage({super.key, required this.showRegisterPage});
+  const LoginPage({super.key});
 
   @override
   State<LoginPage> createState() => _LoginPageState();
@@ -184,7 +186,7 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     GestureDetector(
                       behavior: HitTestBehavior.opaque,
-                      onTap: widget.showRegisterPage,
+                      onTap: () => context.goNamed('register_page'),
                       child: const Text(
                         'Register now!',
                         style: TextStyle(
