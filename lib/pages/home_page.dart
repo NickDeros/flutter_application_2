@@ -2,6 +2,7 @@ import "package:firebase_auth/firebase_auth.dart";
 import "package:flutter/material.dart";
 import "package:flutter_application_2/controllers/movie_controller.dart";
 import "package:flutter_application_2/pages/movie_detail_page.dart";
+import "package:flutter_application_2/pages/widgets/home_widgets/customAppbar.dart";
 import "package:flutter_application_2/pages/widgets/home_widgets/topRated_carousel.dart";
 import "package:flutter_application_2/pages/widgets/home_widgets/trending_carousel.dart";
 import "package:flutter_application_2/repositories/movie_repository.dart";
@@ -18,49 +19,12 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final movieController = MovieController();
-  Future getUser() {
-    final user = FirebaseAuth.instance.currentUser!;
-    final userRepo = UserRepo();
-    final userData = userRepo.getUser(uid: user.uid);
-    return userData;
-  }
-
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 42, 42, 42),
-      appBar: AppBar(
-        toolbarHeight: 100,
-        backgroundColor: Colors.transparent,
-        leading: const Icon(
-          Icons.account_circle_rounded,
-          color: Colors.white,
-          size: 50,
-        ),
-        title: FutureBuilder(
-          future: getUser(),
-          builder: (BuildContext context, AsyncSnapshot snapshot) {
-            if (snapshot.hasData) {
-              return Text(
-                "Hi ${snapshot.data["first_name"]}!",
-                style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 30,
-                    color: Colors.white),
-              );
-            } else {
-              return const CircularProgressIndicator();
-            }
-          },
-        ),
-        actions: [
-          // ICON SEARCH
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(Icons.search, size: 40, color: Colors.white),
-          ),
-        ],
-      ),
+      appBar: const CustomAppBar(),
       body: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
         child: Padding(

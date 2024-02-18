@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_2/controllers/auth_controller.dart';
 import 'package:flutter_application_2/pages/forgot_password_page.dart';
 import 'package:flutter_application_2/repositories/auth_repository.dart';
 import 'package:flutter_application_2/utils/validators.dart';
@@ -76,6 +77,7 @@ class _LoginPageState extends State<LoginPage> {
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 25.0),
                         child: TextFormField(
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
                           validator: (value) {
                             return Validators().emailValidator(value);
                           },
@@ -103,6 +105,7 @@ class _LoginPageState extends State<LoginPage> {
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 25.0),
                         child: TextFormField(
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
                           validator: (value) {
                             return Validators().passwordValidator(value);
                           },
@@ -163,9 +166,12 @@ class _LoginPageState extends State<LoginPage> {
                         child: GestureDetector(
                           onTap: () {
                             if (_formKey.currentState!.validate()) {
-                              AuthRepo()
-                                  .login(_emailController, _passwordController);
+                              AuthController().loginController(
+                                _emailController.text.trim(),
+                                _passwordController.text.trim(),
+                              );
                             }
+                            AuthRepo().authStateChange();
                           },
                           child: Container(
                             padding: const EdgeInsets.all(20),

@@ -7,7 +7,7 @@ import 'package:go_router/go_router.dart';
 
 final goRouter = GoRouter(
   debugLogDiagnostics: true,
-  initialLocation: '/login_page',
+  initialLocation: '/',
   routes: [
     GoRoute(
       path: '/',
@@ -17,9 +17,22 @@ final goRouter = GoRouter(
         GoRoute(
           path: 'detail_page/:movieId',
           name: 'detail_page',
-          builder: ((context, state) {
-            return MovieDetailPage(movieId: int.parse(state.pathParameters['movieId']!));
-          }),
+          pageBuilder: (context, state) {
+            //transition 
+            return CustomTransitionPage(
+              transitionDuration: const Duration(milliseconds: 25),
+              key: state.pageKey,
+              child: MovieDetailPage(
+                  movieId: int.parse(state.pathParameters['movieId']!)),
+              transitionsBuilder:
+                  (context, animation, secondaryAnimation, child) {
+                return ScaleTransition(
+                  scale: animation,
+                  child: child,
+                );
+              },
+            );
+          },
         ),
       ],
     ),

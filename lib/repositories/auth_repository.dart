@@ -1,6 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_application_2/pages/home_page.dart';
+import 'package:flutter_application_2/routing/app_router.dart';
+import 'package:go_router/go_router.dart';
 
 class AuthRepo {
+  final goRoute = goRouter;
   final firebase = FirebaseAuth.instance;
   //Registration on FirebaseAuth
   Future registration(email, password) async {
@@ -45,6 +49,8 @@ class AuthRepo {
 
   //Auth state changes
   Stream<User?> authStateChange() {
-    return firebase.authStateChanges();
+    final state = firebase.authStateChanges();
+    print(state);
+    return state;
   }
 }
