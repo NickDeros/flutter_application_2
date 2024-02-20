@@ -13,7 +13,6 @@ class MovieDetailPage extends StatefulWidget {
 }
 
 class _MovieDetailPageState extends State<MovieDetailPage> {
-  
   @override
   Widget build(BuildContext context) {
     String url = 'https://image.tmdb.org/t/p/original';
@@ -95,28 +94,27 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
                       },
                     ),
                     Text("______"),
-                    ListView.builder(
-                      physics: const NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,
-                      itemCount: movieVideos.length,
-                      itemBuilder: (context, index) {
-                        YoutubePlayerController controller =
-                            YoutubePlayerController(
-                          initialVideoId: movieVideos[index]['key'],
-                          flags: const YoutubePlayerFlags(
-                            autoPlay: true,
-                            mute: false,
+                    movieVideos.length == 3
+                        ? Text("no trailer")
+                        : ListView.builder(
+                            physics: const NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            itemCount: movieVideos.length,
+                            itemBuilder: (context, index) {
+                              YoutubePlayerController controller =
+                                  YoutubePlayerController(
+                                initialVideoId: movieVideos[index]['key'],
+                                flags: const YoutubePlayerFlags(
+                                  autoPlay: true,
+                                  mute: false,
+                                ),
+                              );
+                              return YoutubePlayer(
+                                controller: controller,
+                                showVideoProgressIndicator: true,
+                              );
+                            },
                           ),
-                        );
-                        return YoutubePlayer(
-                          controller: controller,
-                          showVideoProgressIndicator: true,
-                          onReady: () {
-                            
-                          },
-                        );
-                      },
-                    ),
                   ],
                 ),
               ),
