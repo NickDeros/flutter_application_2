@@ -45,4 +45,24 @@ class MovieController {
       throw Exception("get movie error");
     }
   }
+
+  Future getMovieAndVideos(movieId) async {
+    try {
+      final movieDetail = await movieRepo.getMovie(movieId);
+      final movieVideos = await movieRepo.getVideos(movieId);
+      if (movieDetail == "error" && movieVideos == "error") {
+        throw Exception("get movie wrong");
+      } else {
+        Map movieAndvideos = {
+          ...movieDetail,
+          ...movieVideos,
+        };
+        return movieAndvideos;
+      }
+    } catch (e) {
+      print('controller movie');
+      print(e.toString());
+      throw Exception("get movie error");
+    }
+  }
 }

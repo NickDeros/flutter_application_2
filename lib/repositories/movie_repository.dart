@@ -71,4 +71,27 @@ class MovieRepo {
       print(e.toString());
     }
   }
+
+  Future getVideos(movieId) async {
+    try {
+      final response =
+          await http.get(Uri.parse('$url/movie/$movieId/videos'), headers: {
+        'accept': 'application/json',
+        'Authorization': 'Bearer $token',
+      });
+      if (response.statusCode == 200) {
+        print("get videos");
+        print("Success");
+        final data = jsonDecode(response.body);
+        return data;
+      } else {
+        print("Error get videos");
+        print("Error 401");
+        // throw Exception('Access Denied!');
+        return "error";
+      }
+    } on Exception catch (e) {
+      print(e.toString());
+    }
+  }
 }

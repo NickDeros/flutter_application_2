@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_2/controllers/movie_controller.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -22,16 +23,17 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
         backgroundColor: const Color.fromARGB(255, 42, 42, 42),
       ),
       body: FutureBuilder(
-        future: movieController.getMovie(widget.movieId),
+        future: movieController.getMovieAndVideos(widget.movieId),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             final production_companies = snapshot.data['production_companies'];
-            for (var company in production_companies) {
-              print(company['name']);
+            if (kDebugMode) {
+              print('----');
+              print(snapshot.data['results']);
+              print(production_companies.toString());
+              print("movie detail data");
+              print(snapshot.data['production_companies'].length);
             }
-            print(production_companies.toString());
-            print("movie detail data");
-            print(snapshot.data['production_companies'].length);
 
             return SingleChildScrollView(
               child: Padding(
@@ -78,25 +80,17 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
                       style: GoogleFonts.aBeeZee(fontSize: 16.5),
                     ),
                     const SizedBox(height: 20),
-                
-                    // ListView(
-                    //   physics: NeverScrollableScrollPhysics(),
-                    //   shrinkWrap: true,
-                    //   children: <Widget>[
-                    //     Text('ciao'),
-                    //     Text('gigio'),
-                    //   ],    
-                    // )
-              
                     ListView.builder(
-                    physics: const NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    itemCount: production_companies.length,
-                    itemBuilder: (context, index) {
-                      return ListTile(title: Text(production_companies[index]['name'], style: Theme.of(context).textTheme.titleMedium));
-                    },
-                  )
-              
+                      physics: const NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      itemCount: production_companies.length,
+                      itemBuilder: (context, index) {
+                        return ListTile(
+                          title: Text(production_companies[index]['name'],
+                              style: Theme.of(context).textTheme.titleMedium),
+                        );
+                      },
+                    )
                   ],
                 ),
               ),
@@ -115,4 +109,3 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
     );
   }
 }
-
