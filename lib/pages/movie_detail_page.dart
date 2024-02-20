@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_2/controllers/movie_controller.dart';
-import 'package:flutter_application_2/repositories/movie_repository.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class MovieDetailPage extends StatelessWidget {
+class MovieDetailPage extends StatefulWidget {
   const MovieDetailPage({super.key, required this.movieId});
   final int movieId;
 
+  @override
+  State<MovieDetailPage> createState() => _MovieDetailPageState();
+}
+
+class _MovieDetailPageState extends State<MovieDetailPage> {
   @override
   Widget build(BuildContext context) {
     String url = 'https://image.tmdb.org/t/p/original';
@@ -18,58 +22,69 @@ class MovieDetailPage extends StatelessWidget {
         backgroundColor: const Color.fromARGB(255, 42, 42, 42),
       ),
       body: FutureBuilder(
-        future: movieController.getMovie(movieId),
+        future: movieController.getMovie(widget.movieId),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             final item = snapshot.data['production_companies'];
             print(item.toString());
             print("hasdata");
             print(snapshot.data['production_companies'].length);
-            return Column(
-              children: [
-                Text(snapshot.data["title"].toString(),
+            return Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Column(
+                children: [
+                  Text(
+                    snapshot.data["title"].toString(),
                     style: GoogleFonts.aBeeZee(
                       color: Colors.white,
-                      fontSize: 34,
-                    )),
-                Row(
-                  children: [
-                    ClipRRect(
-                      child: Image.network(url + snapshot.data!['poster_path'],
+                      fontSize: 25,
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(12),
+                    child: Image.network(
+                      url + snapshot.data!['backdrop_path'],
                       filterQuality: FilterQuality.low,
-                      alignment: Alignment.topLeft,
-                      height: 400,
-                      width: 200,
+                      height: 300,
+                      width: 380,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        snapshot.data["vote_average"].toString(),
+                        style: GoogleFonts.aBeeZee(
+                          color: Colors.white,
+                          fontSize: 20,
+                        ),
                       ),
-                    ),
-                    Text("Original Title")
-                  ],
-                ),
-
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      snapshot.data["vote_average"].toString(),
-                      style: GoogleFonts.aBeeZee(
-                        color: Colors.white,
-                        fontSize: 20,
+                      const Icon(
+                        Icons.star,
+                        color: Colors.yellow,
                       ),
-                    ),
-                    const Icon(
-                      Icons.star,
-                      color: Colors.yellow,
-                    ),
-                  ],
-                ),
-                // ListView.builder(
-                //   itemCount: snapshot.data['production_companies'].length,
-                //   itemBuilder: (context, index) {
-                //     String key = snapshot.data['production_companies'].toList();
-                //     return ListTile(title: Text(key[index]));
-                //   },
-                // )
-              ],
+                    ],
+                  ),
+                  const SizedBox(height: 20),
+                  Text(
+                    snapshot.data['overview'].toString(),
+                    style: GoogleFonts.aBeeZee(fontSize: 16.5),
+                  ),
+                  const SizedBox(height: 20),
+              
+                  ListView(
+                    physics: NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    children: <Widget>[
+                      Text('ciao'),
+                      Text('gigio'),
+                    ],
+                  
+                  )
+                ],
+              ),
             );
           } else if (snapshot.hasError) {
             print("hasError");
@@ -85,3 +100,4 @@ class MovieDetailPage extends StatelessWidget {
     );
   }
 }
+

@@ -1,7 +1,7 @@
 import "package:firebase_auth/firebase_auth.dart";
 import "package:flutter/material.dart";
 import "package:flutter_application_2/controllers/movie_controller.dart";
-import "package:flutter_application_2/pages/movie_detail_page.dart";
+import 'package:flutter_application_2/pages/movie_detail_page.dart';
 import "package:flutter_application_2/pages/widgets/home_widgets/customAppbar.dart";
 import "package:flutter_application_2/pages/widgets/home_widgets/topRated_carousel.dart";
 import "package:flutter_application_2/pages/widgets/home_widgets/trending_carousel.dart";
