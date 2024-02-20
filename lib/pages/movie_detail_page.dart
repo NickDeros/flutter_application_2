@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_2/controllers/movie_controller.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class MovieDetailPage extends StatefulWidget {
   const MovieDetailPage({super.key, required this.movieId});
@@ -12,6 +13,7 @@ class MovieDetailPage extends StatefulWidget {
 }
 
 class _MovieDetailPageState extends State<MovieDetailPage> {
+  
   @override
   Widget build(BuildContext context) {
     String url = 'https://image.tmdb.org/t/p/original';
@@ -27,6 +29,7 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             final production_companies = snapshot.data['production_companies'];
+            final movieVideos = snapshot.data["results"];
             if (kDebugMode) {
               print('----');
               print(snapshot.data['results']);
@@ -90,7 +93,30 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
                               style: Theme.of(context).textTheme.titleMedium),
                         );
                       },
-                    )
+                    ),
+                    Text("______"),
+                    ListView.builder(
+                      physics: const NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      itemCount: movieVideos.length,
+                      itemBuilder: (context, index) {
+                        YoutubePlayerController controller =
+                            YoutubePlayerController(
+                          initialVideoId: movieVideos[index]['key'],
+                          flags: const YoutubePlayerFlags(
+                            autoPlay: true,
+                            mute: false,
+                          ),
+                        );
+                        return YoutubePlayer(
+                          controller: controller,
+                          showVideoProgressIndicator: true,
+                          onReady: () {
+                            
+                          },
+                        );
+                      },
+                    ),
                   ],
                 ),
               ),
