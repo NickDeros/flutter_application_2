@@ -31,6 +31,20 @@ class MovieController {
     }
   }
 
+  Future getMoviesInTheatres() async {
+    try {
+      final movieList = await movieRepo.fetchMoviesInTheatres();
+      if (movieList == "error") {
+        throw Exception("get movie wrong");
+      } else {
+        return movieList;
+      }
+    } catch (e) {
+      print("get movie catch");
+      throw Exception("get movie error");
+    }
+  }
+
   Future getMovie(movieId) async {
     try {
       final movieDetail = await movieRepo.getMovie(movieId);

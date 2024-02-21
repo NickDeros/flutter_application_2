@@ -19,7 +19,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final movieController = MovieController();
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,7 +35,7 @@ class _HomePageState extends State<HomePage> {
               //TRENDING MOVIES
               Text(
                 'Trending Movies',
-                style: GoogleFonts.aBeeZee(fontSize: 25, color: Colors.white),
+                style: GoogleFonts.aBeeZee(fontSize: 25, color: Colors.white, fontWeight: FontWeight.bold),
               ),
               const SizedBox(
                 height: 16,
@@ -61,14 +61,12 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
               // TOP RATED MOVIES
-              const SizedBox(
-                height: 16,
-              ),
+              const SizedBox(height: 20),
               Text(
                 "Top rated movies",
-                style: GoogleFonts.aBeeZee(fontSize: 25, color: Colors.white),
+                style: GoogleFonts.aBeeZee(fontSize: 25, color: Colors.white, fontWeight: FontWeight.bold),
               ),
-              const SizedBox(height: 32),
+              const SizedBox(height: 20),
               SizedBox(
                 width: double.infinity,
                 child: FutureBuilder(
@@ -89,9 +87,33 @@ class _HomePageState extends State<HomePage> {
                   },
                 ),
               ),
+
+              //Movies In Theatres
+              const SizedBox(height: 20),
               Text(
-                "Top rated movies",
-                style: GoogleFonts.aBeeZee(fontSize: 25, color: Colors.white),
+                "Now in theatres",
+                style: GoogleFonts.aBeeZee(fontSize: 25, color: Colors.white, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 20),
+              SizedBox(
+                width: double.infinity,
+                child: FutureBuilder(
+                  future: movieController.getMoviesInTheatres(),
+                  builder: (BuildContext context, AsyncSnapshot snapshot) {
+                    if (snapshot.hasData) {
+                      print("hasdata");
+                      return TopRatedCarousel(snapshot: snapshot);
+                    } else if (snapshot.hasError) {
+                      print("hasError");
+                      return Text(
+                        snapshot.error.toString(),
+                        style: const TextStyle(color: Colors.red, fontSize: 20),
+                      );
+                    } else {
+                      return const Center(child: CircularProgressIndicator());
+                    }
+                  },
+                ),
               ),
             ],
           ),

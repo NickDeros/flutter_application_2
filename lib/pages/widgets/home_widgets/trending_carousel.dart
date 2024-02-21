@@ -10,7 +10,6 @@ class TrendingCarousel extends StatelessWidget {
   const TrendingCarousel({super.key, required this.snapshot});
   final AsyncSnapshot snapshot;
 
-
   @override
   Widget build(BuildContext context) {
     String url = 'https://image.tmdb.org/t/p/original';
@@ -48,18 +47,10 @@ class TrendingCarousel extends StatelessWidget {
                   },
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(
+              const Padding(
+                padding: EdgeInsets.symmetric(
                   horizontal: 8,
                   vertical: 8,
-                ),
-                child: Text(
-                  snapshot.data![itemIndex]["title"],
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20,
-                  ),
                 ),
               ),
             ],

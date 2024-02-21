@@ -39,7 +39,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[300],
+      backgroundColor: const Color.fromARGB(255, 42, 42, 42),
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
@@ -151,6 +151,7 @@ class _LoginPageState extends State<LoginPage> {
                                 style: TextStyle(
                                   color: Colors.blue,
                                   fontWeight: FontWeight.bold,
+                                  fontSize: 18
                                 ),
                               ),
                             ),
@@ -158,7 +159,7 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                       ),
 
-                      const SizedBox(height: 10),
+                      const SizedBox(height: 30),
 
                       // sign in button
                       Padding(

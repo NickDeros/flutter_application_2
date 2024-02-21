@@ -12,7 +12,7 @@ final goRouter = GoRouter(
     GoRoute(
       path: '/',
       name: 'home',
-      builder: (context, state) => HomePage(),
+      builder: (context, state) => const HomePage(),
       routes: [
         GoRoute(
           path: 'detail_page/:movieId',
@@ -40,13 +40,13 @@ final goRouter = GoRouter(
         path: '/login_page',
         name: 'login_page',
         builder: (context, state) {
-          return LoginPage();
+          return const LoginPage();
         }),
     GoRoute(
         path: '/register_page',
         name: 'register_page',
         builder: (context, state) {
-          return RegisterPage();
+          return const RegisterPage();
         }),
   ],
 );

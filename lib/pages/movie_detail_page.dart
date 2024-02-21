@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_2/controllers/movie_controller.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:readmore/readmore.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class MovieDetailPage extends StatefulWidget {
@@ -27,12 +28,12 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
         future: movieController.getMovieAndVideos(widget.movieId),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            final production_companies = snapshot.data['production_companies'];
+            final productionCompanies = snapshot.data['production_companies'];
             final movieVideos = snapshot.data["results"];
             if (kDebugMode) {
               print('----');
               print(snapshot.data['results']);
-              print(production_companies.toString());
+              print(productionCompanies.toString());
               print("movie detail data");
               print(snapshot.data['production_companies'].length);
             }
@@ -60,6 +61,7 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
                         fit: BoxFit.cover,
                       ),
                     ),
+                    const SizedBox(height: 5),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -76,36 +78,87 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
                         ),
                       ],
                     ),
+                    const SizedBox(height: 10),
+                    Column(
+                      children: [
+                        ElevatedButton.icon(
+                          onPressed: () {},
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.white,
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 12, horizontal: 90),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                          ),
+                          label: Text(
+                            'Play Now',
+                            style: GoogleFonts.roboto(
+                              fontSize: 25,
+                            ),
+                          ),
+                          icon: const Icon(Icons.play_arrow_rounded),
+                        ),
+                        const SizedBox(height: 12),
+                      ],
+                    ),
+                    ElevatedButton.icon(
+                      onPressed: () {},
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.white,
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 12, horizontal: 90),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                      label: Text(
+                        'Download',
+                        style: GoogleFonts.roboto(
+                          fontSize: 24,
+                        ),
+                      ),
+                      icon: const Icon(Icons.file_download_outlined),
+                    ),
+                    const SizedBox(height: 25),
+                    ReadMoreText(snapshot.data['overview'].toString(),
+                        style: GoogleFonts.aBeeZee(fontSize: 16),
+                        trimLines: 2,
+                        colorClickableText: Colors.deepPurple,
+                        trimMode: TrimMode.Line,
+                        trimCollapsedText: 'Show more',
+                        trimExpandedText: 'Show less',
+                        moreStyle: const TextStyle(
+                            fontSize: 16.5, color: Colors.deepPurpleAccent)),
                     const SizedBox(height: 20),
+                    // ListView.builder(
+                    //   physics: const NeverScrollableScrollPhysics(),
+                    //   shrinkWrap: true,
+                    //   itemCount: productionCompanies.length,
+                    //   itemBuilder: (context, index) {
+                    //     return ListTile(
+                    //       title: Text(productionCompanies[1]['name'],
+                    //           style: Theme.of(context).textTheme.titleMedium),
+                    //     );
+                    //   },
+                    // ),
                     Text(
-                      snapshot.data['overview'].toString(),
-                      style: GoogleFonts.aBeeZee(fontSize: 16.5),
+                      "Trailer on Youtube",
+                      style: GoogleFonts.aBeeZee(fontSize: 25),
                     ),
-                    const SizedBox(height: 20),
-                    ListView.builder(
-                      physics: const NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,
-                      itemCount: production_companies.length,
-                      itemBuilder: (context, index) {
-                        return ListTile(
-                          title: Text(production_companies[index]['name'],
-                              style: Theme.of(context).textTheme.titleMedium),
-                        );
-                      },
-                    ),
-                    Text("______"),
-                    movieVideos.length == 3
-                        ? Text("no trailer")
+                    const SizedBox(height: 10),
+                    movieVideos.length == 0
+                        ? const Text("no trailer")
                         : ListView.builder(
                             physics: const NeverScrollableScrollPhysics(),
                             shrinkWrap: true,
-                            itemCount: movieVideos.length,
+                            itemCount: 1,
                             itemBuilder: (context, index) {
                               YoutubePlayerController controller =
                                   YoutubePlayerController(
-                                initialVideoId: movieVideos[index]['key'],
+                                initialVideoId: movieVideos[0]['key'],
                                 flags: const YoutubePlayerFlags(
-                                  autoPlay: true,
+                                  autoPlay: false,
                                   mute: false,
                                 ),
                               );
@@ -120,7 +173,9 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
               ),
             );
           } else if (snapshot.hasError) {
-            print("hasError");
+            if (kDebugMode) {
+              print("hasError");
+            }
             return Text(
               snapshot.error.toString(),
               style: const TextStyle(color: Colors.red, fontSize: 20),

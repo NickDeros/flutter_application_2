@@ -49,6 +49,27 @@ class MovieRepo {
     }
   }
 
+    Future fetchMoviesInTheatres() async {
+    try {
+      final response =
+          await http.get(Uri.parse('$url/movie/now_playing'), headers: {
+        'accept': 'application/json',
+        'Authorization': 'Bearer $token',
+      });
+      if (response.statusCode == 200) {
+        print("Success");
+        final data = jsonDecode(response.body);
+        return data['results'] as List;
+      } else {
+        print("Error 401");
+        // throw Exception('Access Denied!');
+        return "error";
+      }
+    } on Exception catch (e) {
+      print(e.toString());
+    }
+  }
+
   Future getMovie(movieId) async {
     try {
       final response =
