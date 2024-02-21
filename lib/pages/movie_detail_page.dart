@@ -19,10 +19,9 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
     String url = 'https://image.tmdb.org/t/p/original';
     final movieController = MovieController();
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 42, 42, 42),
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
         iconTheme: const IconThemeData(color: Colors.white),
-        backgroundColor: const Color.fromARGB(255, 42, 42, 42),
       ),
       body: FutureBuilder(
         future: movieController.getMovieAndVideos(widget.movieId),
@@ -40,7 +39,7 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
 
             return SingleChildScrollView(
               child: Padding(
-                padding: const EdgeInsets.all(20.0),
+                padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Column(
                   children: [
                     Text(
@@ -51,23 +50,25 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
                       ),
                     ),
                     const SizedBox(height: 20),
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(12),
-                      child: Image.network(
-                        url + snapshot.data!['backdrop_path'],
-                        filterQuality: FilterQuality.low,
-                        height: 300,
-                        width: 380,
-                        fit: BoxFit.cover,
+                    Stack(children: [
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(12),
+                        child: Image.network(
+                          url + snapshot.data!['backdrop_path'],
+                          filterQuality: FilterQuality.low,
+                          height: 300,
+                          width: 380,
+                          fit: BoxFit.cover,
+                        ),
                       ),
-                    ),
+                    ]),
                     const SizedBox(height: 5),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          snapshot.data["vote_average"].toString(),
-                          style: GoogleFonts.aBeeZee(
+                          "${snapshot.data["vote_average"]} ",
+                          style: GoogleFonts.roboto(
                             color: Colors.white,
                             fontSize: 20,
                           ),
@@ -121,13 +122,14 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
                       icon: const Icon(Icons.file_download_outlined),
                     ),
                     const SizedBox(height: 25),
+                    // OVERVIEW
                     ReadMoreText(snapshot.data['overview'].toString(),
                         style: GoogleFonts.aBeeZee(fontSize: 16),
                         trimLines: 2,
                         colorClickableText: Colors.deepPurple,
                         trimMode: TrimMode.Line,
                         trimCollapsedText: 'Show more',
-                        trimExpandedText: 'Show less',
+                        trimExpandedText: ' Show less',
                         moreStyle: const TextStyle(
                             fontSize: 16.5, color: Colors.deepPurpleAccent)),
                     const SizedBox(height: 20),

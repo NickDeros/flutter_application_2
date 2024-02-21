@@ -5,7 +5,7 @@ import 'package:flutter_application_2/repositories/user_repository.dart';
 class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
   const CustomAppBar({super.key});
   @override 
-  Size get preferredSize => Size.fromHeight(60.0);
+  Size get preferredSize => const Size.fromHeight(60.0);
 
   @override
   State<CustomAppBar> createState() => CustomAppBarState();
@@ -23,7 +23,7 @@ class CustomAppBarState extends State<CustomAppBar> {
   Widget build(BuildContext context) {
     return AppBar(
       toolbarHeight: 100,
-      backgroundColor: Colors.transparent,
+      backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
       leading: Icon(
         Icons.account_circle_rounded,
         color: Theme.of(context).iconTheme.color,

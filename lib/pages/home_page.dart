@@ -23,99 +23,120 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 42, 42, 42),
       appBar: const CustomAppBar(),
-      body: SingleChildScrollView(
-        physics: const BouncingScrollPhysics(),
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              //TRENDING MOVIES
-              Text(
-                'Trending Movies',
-                style: GoogleFonts.aBeeZee(fontSize: 25, color: Colors.white, fontWeight: FontWeight.bold),
-              ),
-              const SizedBox(
-                height: 16,
-              ),
-              SizedBox(
-                width: double.infinity,
-                child: FutureBuilder(
-                  future: movieController.getTrendingMovies(),
-                  builder: (BuildContext context, AsyncSnapshot snapshot) {
-                    if (snapshot.hasData) {
-                      print("hasdata");
-                      return TrendingCarousel(snapshot: snapshot);
-                    } else if (snapshot.hasError) {
-                      print("hasError");
-                      return Text(
-                        snapshot.error.toString(),
-                        style: const TextStyle(color: Colors.red, fontSize: 20),
-                      );
-                    } else {
-                      return const Center(child: CircularProgressIndicator());
-                    }
-                  },
+      body: Container(
+        // decoration: const BoxDecoration(
+        //   gradient: LinearGradient(
+        //     colors: [Color(0xff00171f), Color(0xff003459)],
+        //     stops: [0.25, 0.75],
+        //     begin: Alignment.topLeft,
+        //     end: Alignment.bottomRight,
+        //   ),
+        // ),
+        child: SingleChildScrollView(
+          physics: const BouncingScrollPhysics(),
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                //TRENDING MOVIES
+                Text(
+                  'Trending Movies',
+                  style: GoogleFonts.aBeeZee(
+                      fontSize: 25,
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold),
                 ),
-              ),
-              // TOP RATED MOVIES
-              const SizedBox(height: 20),
-              Text(
-                "Top rated movies",
-                style: GoogleFonts.aBeeZee(fontSize: 25, color: Colors.white, fontWeight: FontWeight.bold),
-              ),
-              const SizedBox(height: 20),
-              SizedBox(
-                width: double.infinity,
-                child: FutureBuilder(
-                  future: movieController.getTopRatedMovies(),
-                  builder: (BuildContext context, AsyncSnapshot snapshot) {
-                    if (snapshot.hasData) {
-                      print("hasdata");
-                      return TopRatedCarousel(snapshot: snapshot);
-                    } else if (snapshot.hasError) {
-                      print("hasError");
-                      return Text(
-                        snapshot.error.toString(),
-                        style: const TextStyle(color: Colors.red, fontSize: 20),
-                      );
-                    } else {
-                      return const Center(child: CircularProgressIndicator());
-                    }
-                  },
+                const SizedBox(
+                  height: 16,
                 ),
-              ),
+                SizedBox(
+                  width: double.infinity,
+                  child: FutureBuilder(
+                    future: movieController.getTrendingMovies(),
+                    builder: (BuildContext context, AsyncSnapshot snapshot) {
+                      if (snapshot.hasData) {
+                        print("hasdata");
+                        return TrendingCarousel(snapshot: snapshot);
+                      } else if (snapshot.hasError) {
+                        print("hasError");
+                        return Text(
+                          snapshot.error.toString(),
+                          style:
+                              const TextStyle(color: Colors.red, fontSize: 20),
+                        );
+                      } else {
+                        return const Center(child: CircularProgressIndicator());
+                      }
+                    },
+                  ),
+                ),
+                // TOP RATED MOVIES
+                const SizedBox(height: 20),
+                Text(
+                  "Top rated movies",
+                  style: GoogleFonts.aBeeZee(
+                      fontSize: 25,
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 20),
+                SizedBox(
+                  width: double.infinity,
+                  child: FutureBuilder(
+                    future: movieController.getTopRatedMovies(),
+                    builder: (BuildContext context, AsyncSnapshot snapshot) {
+                      if (snapshot.hasData) {
+                        print("hasdata");
+                        return TopRatedCarousel(snapshot: snapshot);
+                      } else if (snapshot.hasError) {
+                        print("hasError");
+                        return Text(
+                          snapshot.error.toString(),
+                          style:
+                              const TextStyle(color: Colors.red, fontSize: 20),
+                        );
+                      } else {
+                        return const Center(child: CircularProgressIndicator());
+                      }
+                    },
+                  ),
+                ),
 
-              //Movies In Theatres
-              const SizedBox(height: 20),
-              Text(
-                "Now in theatres",
-                style: GoogleFonts.aBeeZee(fontSize: 25, color: Colors.white, fontWeight: FontWeight.bold),
-              ),
-              const SizedBox(height: 20),
-              SizedBox(
-                width: double.infinity,
-                child: FutureBuilder(
-                  future: movieController.getMoviesInTheatres(),
-                  builder: (BuildContext context, AsyncSnapshot snapshot) {
-                    if (snapshot.hasData) {
-                      print("hasdata");
-                      return TopRatedCarousel(snapshot: snapshot);
-                    } else if (snapshot.hasError) {
-                      print("hasError");
-                      return Text(
-                        snapshot.error.toString(),
-                        style: const TextStyle(color: Colors.red, fontSize: 20),
-                      );
-                    } else {
-                      return const Center(child: CircularProgressIndicator());
-                    }
-                  },
+                //Movies In Theatres
+                const SizedBox(height: 20),
+                Text(
+                  "Now in theatres",
+                  style: GoogleFonts.aBeeZee(
+                      fontSize: 25,
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold),
                 ),
-              ),
-            ],
+                const SizedBox(height: 20),
+                SizedBox(
+                  width: double.infinity,
+                  child: FutureBuilder(
+                    future: movieController.getMoviesInTheatres(),
+                    builder: (BuildContext context, AsyncSnapshot snapshot) {
+                      if (snapshot.hasData) {
+                        print("hasdata");
+                        return TopRatedCarousel(snapshot: snapshot);
+                      } else if (snapshot.hasError) {
+                        print("hasError");
+                        return Text(
+                          snapshot.error.toString(),
+                          style:
+                              const TextStyle(color: Colors.red, fontSize: 20),
+                        );
+                      } else {
+                        return const Center(child: CircularProgressIndicator());
+                      }
+                    },
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
