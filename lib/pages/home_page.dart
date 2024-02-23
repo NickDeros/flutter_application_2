@@ -135,6 +135,37 @@ class _HomePageState extends State<HomePage> {
                     },
                   ),
                 ),
+                //Coming Soon
+                const SizedBox(height: 20),
+                Text(
+                  "Coming Soon",
+                  style: GoogleFonts.aBeeZee(
+                      fontSize: 25,
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 20),
+                SizedBox(
+                  width: double.infinity,
+                  child: FutureBuilder(
+                    future: movieController.ComingSoon(),
+                    builder: (BuildContext context, AsyncSnapshot snapshot) {
+                      if (snapshot.hasData) {
+                        print("hasdata");
+                        return TopRatedCarousel(snapshot: snapshot);
+                      } else if (snapshot.hasError) {
+                        print("hasError");
+                        return Text(
+                          snapshot.error.toString(),
+                          style:
+                              const TextStyle(color: Colors.red, fontSize: 20),
+                        );
+                      } else {
+                        return const Center(child: CircularProgressIndicator());
+                      }
+                    },
+                  ),
+                ),
               ],
             ),
           ),

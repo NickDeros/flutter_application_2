@@ -1,3 +1,4 @@
+import 'package:flutter_application_2/pages/widgets/home_widgets/coming_soon.dart';
 import 'package:flutter_application_2/repositories/movie_repository.dart';
 
 class MovieController {
@@ -34,6 +35,20 @@ class MovieController {
   Future getMoviesInTheatres() async {
     try {
       final movieList = await movieRepo.fetchMoviesInTheatres();
+      if (movieList == "error") {
+        throw Exception("get movie wrong");
+      } else {
+        return movieList;
+      }
+    } catch (e) {
+      print("get movie catch");
+      throw Exception("get movie error");
+    }
+  }
+
+    Future ComingSoon() async {
+    try {
+      final movieList = await movieRepo.fetchComingSoon();
       if (movieList == "error") {
         throw Exception("get movie wrong");
       } else {
