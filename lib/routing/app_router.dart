@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_2/pages/forgot_password_page.dart';
 import 'package:flutter_application_2/pages/home_page.dart';
 import 'package:flutter_application_2/pages/login_page.dart';
 import 'package:flutter_application_2/pages/movie_detail_page.dart';
@@ -18,7 +19,7 @@ final goRouter = GoRouter(
           path: 'detail_page/:movieId',
           name: 'detail_page',
           pageBuilder: (context, state) {
-            //transition 
+            //transition
             return CustomTransitionPage(
               transitionDuration: const Duration(milliseconds: 25),
               key: state.pageKey,
@@ -47,6 +48,12 @@ final goRouter = GoRouter(
         name: 'register_page',
         builder: (context, state) {
           return const RegisterPage();
+        }),
+    GoRoute(
+        path: '/forgot_password_page',
+        name: 'forgot_password_page',
+        builder: (context, state) {
+          return const ForgotPasswordPage();
         }),
   ],
 );

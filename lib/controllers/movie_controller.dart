@@ -65,18 +65,21 @@ class MovieController {
       final movieDetail = await movieRepo.getMovie(movieId);
       final movieVideos = await movieRepo.getVideos(movieId);
       if (movieDetail == "error" && movieVideos == "error") {
+        print('get movies and video IF');
         throw Exception("get movie wrong");
       } else {
-        Map movieAndvideos = {
-          ...movieDetail,
-          ...movieVideos,
-        };
-        return movieAndvideos;
+        movieDetail.addAll({'results': movieVideos});
+        print('get movies and video else');
+        print(movieDetail);
+        print(movieVideos);
+        print('sono detail+videos');
+        print(movieDetail);
+        return movieDetail;
       }
     } catch (e) {
       print('controller movie');
       print(e.toString());
-      throw Exception("get movie error");
+      throw Exception(e);
     }
   }
 }

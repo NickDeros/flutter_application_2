@@ -2,6 +2,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_2/controllers/auth_controller.dart';
 import 'package:flutter_application_2/pages/forgot_password_page.dart';
+import 'package:flutter_application_2/pages/widgets/login_widgets/email_textfield.dart';
+import 'package:flutter_application_2/pages/widgets/login_widgets/logo.dart';
+import 'package:flutter_application_2/pages/widgets/login_widgets/password_textfield.dart';
 import 'package:flutter_application_2/repositories/auth_repository.dart';
 import 'package:flutter_application_2/utils/validators.dart';
 import 'package:go_router/go_router.dart';
@@ -46,21 +49,7 @@ class _LoginPageState extends State<LoginPage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Icon(
-                  Icons.android_rounded,
-                  size: 100,
-                ),
-                const SizedBox(height: 25),
-
-                //Hello Again
-
-                Text(
-                  'Helo Again!',
-                  style: GoogleFonts.bebasNeue(
-                    fontSize: 52,
-                  ),
-                ),
-
+                Logo(),
                 const SizedBox(height: 10),
                 const Text(
                   'Welcome back, you\'ve been missed!',
@@ -68,65 +57,19 @@ class _LoginPageState extends State<LoginPage> {
                     fontSize: 20,
                   ),
                 ),
+
                 const SizedBox(height: 50),
                 Form(
                   key: _formKey,
                   child: Column(
                     children: [
                       // email textfield
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                        child: TextFormField(
-                          autovalidateMode: AutovalidateMode.onUserInteraction,
-                          validator: (value) {
-                            return Validators().emailValidator(value);
-                          },
-                          keyboardType: TextInputType.emailAddress,
-                          controller: _emailController,
-                          decoration: InputDecoration(
-                            enabledBorder: OutlineInputBorder(
-                              borderSide: const BorderSide(color: Colors.white),
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderSide:
-                                  const BorderSide(color: Colors.deepPurple),
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            hintText: 'Email',
-                            fillColor: Colors.grey[200],
-                            filled: true,
-                          ),
-                        ),
-                      ),
+                      EmailTextField(emailController: _emailController),
                       const SizedBox(height: 10),
 
                       //password textfield
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                        child: TextFormField(
-                          autovalidateMode: AutovalidateMode.onUserInteraction,
-                          validator: (value) {
-                            return Validators().passwordValidator(value);
-                          },
-                          obscureText: true,
-                          controller: _passwordController,
-                          decoration: InputDecoration(
-                            enabledBorder: OutlineInputBorder(
-                              borderSide: const BorderSide(color: Colors.white),
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderSide:
-                                  const BorderSide(color: Colors.deepPurple),
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            hintText: 'Password',
-                            fillColor: Colors.grey[200],
-                            filled: true,
-                          ),
-                        ),
-                      ),
+                      PasswordTextField(
+                          passwordController: _passwordController),
                       const SizedBox(height: 10),
 
                       //forgot password
@@ -137,22 +80,14 @@ class _LoginPageState extends State<LoginPage> {
                           children: [
                             GestureDetector(
                               onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) {
-                                      return const ForgotPasswordPage();
-                                    },
-                                  ),
-                                );
+                                context.push('/forgot_password_page');
                               },
                               child: const Text(
                                 "Forgot Password?",
                                 style: TextStyle(
-                                  color: Colors.blue,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 18
-                                ),
+                                    color: Colors.blue,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 18),
                               ),
                             ),
                           ],

@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter_application_2/models/trailer_model.dart';
 import 'package:http/http.dart' as http;
 
 class MovieRepo {
@@ -49,7 +50,7 @@ class MovieRepo {
     }
   }
 
-    Future fetchMoviesInTheatres() async {
+  Future fetchMoviesInTheatres() async {
     try {
       final response =
           await http.get(Uri.parse('$url/movie/now_playing'), headers: {
@@ -103,8 +104,14 @@ class MovieRepo {
       if (response.statusCode == 200) {
         print("get videos");
         print("Success");
+
         final data = jsonDecode(response.body);
-        return data;
+        List results = data['results'];
+        final dataFilter = results.where((value) => value['type'] == 'Trailer').toList();
+        print(data['results']);
+        print('data filter');
+        print(dataFilter);
+        return dataFilter;
       } else {
         print("Error get videos");
         print("Error 401");
