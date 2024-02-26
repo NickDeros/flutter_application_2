@@ -148,7 +148,7 @@ class _HomePageState extends State<HomePage> {
                 SizedBox(
                   width: double.infinity,
                   child: FutureBuilder(
-                    future: movieController.ComingSoon(),
+                    future: movieController.comingSoon(),
                     builder: (BuildContext context, AsyncSnapshot snapshot) {
                       if (snapshot.hasData) {
                         print("hasdata");

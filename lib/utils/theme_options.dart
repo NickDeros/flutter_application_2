@@ -10,6 +10,7 @@ class ThemeOptions {
       bodyMedium: GoogleFonts.aBeeZee(fontSize: 20, color: Colors.white),
       titleMedium: GoogleFonts.aBeeZee(fontSize: 25, color: Colors.white),
       titleLarge: GoogleFonts.aBeeZee(fontSize: 30, color: Colors.white),
+      titleSmall: GoogleFonts.aBeeZee(fontSize: 15, color: Colors.white),
     ),
     
     iconTheme: const IconThemeData(

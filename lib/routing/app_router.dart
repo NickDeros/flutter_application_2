@@ -3,6 +3,7 @@ import 'package:flutter_application_2/pages/forgot_password_page.dart';
 import 'package:flutter_application_2/pages/home_page.dart';
 import 'package:flutter_application_2/pages/login_page.dart';
 import 'package:flutter_application_2/pages/movie_detail_page.dart';
+import 'package:flutter_application_2/pages/profile_screen.dart';
 import 'package:flutter_application_2/pages/register_page.dart';
 import 'package:go_router/go_router.dart';
 
@@ -15,6 +16,12 @@ final goRouter = GoRouter(
       name: 'home',
       builder: (context, state) => const HomePage(),
       routes: [
+        GoRoute(
+            path: 'profile_page',
+            name: 'profile_page',
+            builder: (context, state) {
+              return const ProfilePage();
+            }),
         GoRoute(
           path: 'detail_page/:movieId',
           name: 'detail_page',

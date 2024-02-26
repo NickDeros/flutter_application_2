@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_application_2/pages/widgets/home_widgets/coming_soon.dart';
 import 'package:flutter_application_2/repositories/movie_repository.dart';
 
@@ -13,7 +14,9 @@ class MovieController {
         return movieList;
       }
     } catch (e) {
-      print("get movie catch");
+      if (kDebugMode) {
+        print("get movie catch");
+      }
       throw Exception("get movie error");
     }
   }
@@ -27,7 +30,9 @@ class MovieController {
         return movieList;
       }
     } catch (e) {
-      print("get movie catch");
+      if (kDebugMode) {
+        print("get movie catch");
+      }
       throw Exception("get movie error");
     }
   }
@@ -41,12 +46,14 @@ class MovieController {
         return movieList;
       }
     } catch (e) {
-      print("get movie catch");
+      if (kDebugMode) {
+        print("get movie catch");
+      }
       throw Exception("get movie error");
     }
   }
 
-    Future ComingSoon() async {
+    Future comingSoon() async {
     try {
       final movieList = await movieRepo.fetchComingSoon();
       if (movieList == "error") {
