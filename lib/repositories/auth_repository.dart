@@ -1,10 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 
-import 'package:flutter_application_2/routing/app_router.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+part 'auth_repository.g.dart';
 
 class AuthRepo {
-  final goRoute = goRouter;
-  final firebase = FirebaseAuth.instance;
+  const AuthRepo(this.firebase);
+  final FirebaseAuth firebase;
   //Registration on FirebaseAuth
   Future registration(email, password) async {
     try {
@@ -48,8 +49,22 @@ class AuthRepo {
 
   //Auth state changes
   Stream<User?> authStateChange() {
-    final state = firebase.authStateChanges();
-    print(state);
-    return state;
+    final user = firebase.authStateChanges();
+    return user;
   }
+}
+
+@Riverpod(keepAlive: true)
+FirebaseAuth firebaseAuth(FirebaseAuthRef ref) {
+  return FirebaseAuth.instance;
+}
+
+@Riverpod(keepAlive: true)
+AuthRepo authRepo(AuthRepoRef ref) {
+  return AuthRepo(ref.watch(firebaseAuthProvider));
+}
+
+@riverpod
+Stream authStateChange(AuthStateChangeRef ref) {
+  return ref.watch(authRepoProvider).authStateChange();
 }

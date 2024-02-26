@@ -20,6 +20,7 @@ class ThemeOptions {
     appBarTheme: const AppBarTheme(
       backgroundColor: Colors.transparent,
       surfaceTintColor:  Colors.transparent,
+      iconTheme: IconThemeData(color: Colors.white, size: 40),
     ),
 
   );

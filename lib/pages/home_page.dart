@@ -7,6 +7,7 @@ import "package:flutter_application_2/pages/widgets/home_widgets/topRated_carous
 import "package:flutter_application_2/pages/widgets/home_widgets/trending_carousel.dart";
 import "package:flutter_application_2/repositories/movie_repository.dart";
 import "package:flutter_application_2/repositories/user_repository.dart";
+import "package:flutter_application_2/utils/drawer.dart";
 import "package:google_fonts/google_fonts.dart";
 import 'package:carousel_slider/carousel_slider.dart';
 
@@ -24,6 +25,9 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const CustomAppBar(),
+      drawer: Drawer(
+        child: myDrawer(),
+      ),
       body: Container(
         // decoration: const BoxDecoration(
         //   gradient: LinearGradient(

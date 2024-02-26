@@ -5,7 +5,7 @@ import 'package:go_router/go_router.dart';
 
 class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
   const CustomAppBar({super.key});
-  @override 
+  @override
   Size get preferredSize => const Size.fromHeight(60.0);
 
   @override
@@ -25,13 +25,13 @@ class CustomAppBarState extends State<CustomAppBar> {
     return AppBar(
       toolbarHeight: 100,
       backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
-      leading: IconButton(
-        onPressed: () {
-          context.go('/profile_page');
-        },
-        icon:  const Icon(Icons.person, size: 40,),
-        color: Theme.of(context).iconTheme.color,
-      ),
+      // leading: IconButton(
+      //   onPressed: () {
+      //     context.go('/profile_page');
+      //   },
+      //   icon:  const Icon(Icons.person, size: 40,),
+      //   color: Theme.of(context).iconTheme.color,
+      // ),
       title: FutureBuilder(
         future: getUser(),
         builder: (BuildContext context, AsyncSnapshot snapshot) {

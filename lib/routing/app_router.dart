@@ -7,60 +7,70 @@ import 'package:flutter_application_2/pages/profile_screen.dart';
 import 'package:flutter_application_2/pages/register_page.dart';
 import 'package:go_router/go_router.dart';
 
-final goRouter = GoRouter(
-  debugLogDiagnostics: true,
-  initialLocation: '/',
-  routes: [
-    GoRoute(
-      path: '/',
-      name: 'home',
-      builder: (context, state) => const HomePage(),
-      routes: [
-        GoRoute(
-            path: 'profile_page',
-            name: 'profile_page',
-            builder: (context, state) {
-              return const ProfilePage();
-            }),
-        GoRoute(
-          path: 'detail_page/:movieId',
-          name: 'detail_page',
-          pageBuilder: (context, state) {
-            //transition
-            return CustomTransitionPage(
-              transitionDuration: const Duration(milliseconds: 25),
-              key: state.pageKey,
-              child: MovieDetailPage(
-                  movieId: int.parse(state.pathParameters['movieId']!)),
-              transitionsBuilder:
-                  (context, animation, secondaryAnimation, child) {
-                return ScaleTransition(
-                  scale: animation,
-                  child: child,
-                );
-              },
-            );
-          },
-        ),
-      ],
-    ),
-    GoRoute(
-        path: '/login_page',
-        name: 'login_page',
-        builder: (context, state) {
-          return const LoginPage();
-        }),
-    GoRoute(
-        path: '/register_page',
-        name: 'register_page',
-        builder: (context, state) {
-          return const RegisterPage();
-        }),
-    GoRoute(
-        path: '/forgot_password_page',
-        name: 'forgot_password_page',
-        builder: (context, state) {
-          return const ForgotPasswordPage();
-        }),
-  ],
-);
+GoRouter goRouter(isLogin) {
+  final goRouter = GoRouter(
+    debugLogDiagnostics: true,
+    initialLocation: '/',
+    routes: [
+      GoRoute(
+        path: '/',
+        name: 'home',
+        builder: (context, state) => const HomePage(),
+        redirect: (context, state) {
+          if (!isLogin) {
+            return '/login_page';
+          }
+          return null;
+        },
+        routes: [
+          GoRoute(
+              path: 'profile_page',
+              name: 'profile_page',
+              builder: (context, state) {
+                return const ProfilePage();
+              }),
+          GoRoute(
+            path: 'detail_page/:movieId',
+            name: 'detail_page',
+            pageBuilder: (context, state) {
+              //transition
+              return CustomTransitionPage(
+                transitionDuration: const Duration(milliseconds: 25),
+                key: state.pageKey,
+                child: MovieDetailPage(
+                    movieId: int.parse(state.pathParameters['movieId']!)),
+                transitionsBuilder:
+                    (context, animation, secondaryAnimation, child) {
+                  return ScaleTransition(
+                    scale: animation,
+                    child: child,
+                  );
+                },
+              );
+            },
+          ),
+        ],
+      ),
+      GoRoute(
+          path: '/login_page',
+          name: 'login_page',
+          builder: (context, state) {
+            return const LoginPage();
+          }),
+      GoRoute(
+          path: '/register_page',
+          name: 'register_page',
+          builder: (context, state) {
+            return const RegisterPage();
+          }),
+      GoRoute(
+          path: '/forgot_password_page',
+          name: 'forgot_password_page',
+          builder: (context, state) {
+            return const ForgotPasswordPage();
+          }),
+    ],
+  );
+
+  return goRouter;
+}

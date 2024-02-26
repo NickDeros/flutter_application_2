@@ -107,7 +107,7 @@ class _LoginPageState extends State<LoginPage> {
                                 _passwordController.text.trim(),
                               );
                             }
-                            AuthRepo().authStateChange();
+                            AuthRepo(FirebaseAuth.instance).authStateChange();
                           },
                           child: Container(
                             padding: const EdgeInsets.all(20),
