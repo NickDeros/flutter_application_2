@@ -1,5 +1,4 @@
 import 'package:flutter/foundation.dart';
-import 'package:flutter_application_2/pages/widgets/home_widgets/coming_soon.dart';
 import 'package:flutter_application_2/repositories/movie_repository.dart';
 
 class MovieController {

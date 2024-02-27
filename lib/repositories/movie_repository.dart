@@ -1,6 +1,4 @@
 import 'dart:convert';
-
-import 'package:flutter_application_2/models/trailer_model.dart';
 import 'package:http/http.dart' as http;
 
 class MovieRepo {

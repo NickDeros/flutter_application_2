@@ -1,6 +1,5 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_application_2/pages/movie_detail_page.dart';
 import 'package:go_router/go_router.dart';
 
 class TopRatedCarousel extends StatelessWidget {

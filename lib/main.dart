@@ -2,7 +2,6 @@ import 'package:flutter_application_2/repositories/auth_repository.dart';
 import 'package:flutter_application_2/utils/theme_options.dart';
 import 'dart:io';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_2/routing/app_router.dart';

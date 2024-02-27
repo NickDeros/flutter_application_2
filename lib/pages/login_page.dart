@@ -1,14 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_2/controllers/auth_controller.dart';
-import 'package:flutter_application_2/pages/forgot_password_page.dart';
 import 'package:flutter_application_2/pages/widgets/login_widgets/email_textfield.dart';
 import 'package:flutter_application_2/pages/widgets/login_widgets/logo.dart';
 import 'package:flutter_application_2/pages/widgets/login_widgets/password_textfield.dart';
 import 'package:flutter_application_2/repositories/auth_repository.dart';
-import 'package:flutter_application_2/utils/validators.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class LoginPage extends StatefulWidget {
   // final VoidCallback showRegisterPage;

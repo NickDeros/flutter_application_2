@@ -1,7 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_2/repositories/user_repository.dart';
-import 'package:go_router/go_router.dart';
 
 class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
   const CustomAppBar({super.key});
@@ -25,13 +24,6 @@ class CustomAppBarState extends State<CustomAppBar> {
     return AppBar(
       toolbarHeight: 100,
       backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
-      // leading: IconButton(
-      //   onPressed: () {
-      //     context.go('/profile_page');
-      //   },
-      //   icon:  const Icon(Icons.person, size: 40,),
-      //   color: Theme.of(context).iconTheme.color,
-      // ),
       title: FutureBuilder(
         future: getUser(),
         builder: (BuildContext context, AsyncSnapshot snapshot) {

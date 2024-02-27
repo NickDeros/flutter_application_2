@@ -8,9 +8,6 @@ import 'package:flutter_application_2/pages/widgets/movie_detail_widgets/play_bu
 import 'package:flutter_application_2/pages/widgets/movie_detail_widgets/rating.dart';
 import 'package:flutter_application_2/pages/widgets/movie_detail_widgets/trailer_on_YT.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:readmore/readmore.dart';
-import 'package:youtube_player_flutter/youtube_player_flutter.dart';
-
 class MovieDetailPage extends StatefulWidget {
   const MovieDetailPage({super.key, required this.movieId});
   final int movieId;
