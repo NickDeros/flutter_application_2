@@ -6,12 +6,12 @@ part of 'user_controller.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$userControllerHash() => r'5927012b5558ee759fbc3f84a4d0b635a0441546';
+String _$userControllerHash() => r'049ea295322df739d9a1796573c76ce8342a176c';
 
 /// See also [UserController].
 @ProviderFor(UserController)
 final userControllerProvider =
-    AutoDisposeNotifierProvider<UserController, void>.internal(
+    AutoDisposeAsyncNotifierProvider<UserController, User?>.internal(
   UserController.new,
   name: r'userControllerProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -21,8 +21,8 @@ final userControllerProvider =
   allTransitiveDependencies: null,
 );
 
-typedef _$UserController = AutoDisposeNotifier<void>;
-String _$profileControllerHash() => r'00a15943d33c8a6e1e661dd2148045e1f3690b7d';
+typedef _$UserController = AutoDisposeAsyncNotifier<User?>;
+String _$profileControllerHash() => r'751fce078a2582ac0af7e1348d9567504f0e1d6e';
 
 /// Copied from Dart SDK
 class _SystemHash {

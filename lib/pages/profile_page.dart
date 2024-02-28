@@ -5,18 +5,22 @@ import 'package:flutter_application_2/repositories/user_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class ProfilePage extends ConsumerWidget {
+class ProfilePage extends ConsumerStatefulWidget {
   ProfilePage({super.key});
 
-  final _formKey = GlobalKey<FormState>();
-
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<ProfilePage> createState() => _ProfilePageState();
+}
+
+class _ProfilePageState extends ConsumerState<ProfilePage> {
+  final _formKey = GlobalKey<FormState>();
+  @override
+  Widget build(BuildContext context) {
     final userController = ref.watch(userControllerProvider);
     final userData =
         ref.watch(ProfileControllerProvider('OmDD38EIGyPC0M4e9GLAt6ht8n62'));
-    print('PROFILE');
-    print(userData.value?['first_name']);
+    print(userData.value);
+    print(userController.value?.email);
     return Scaffold(
       appBar: AppBar(
         iconTheme: Theme.of(context).iconTheme,
@@ -42,102 +46,106 @@ class ProfilePage extends ConsumerWidget {
                   ),
                 ),
                 const SizedBox(height: 10),
-                userData.isLoading
-                    ? const CircularProgressIndicator()
-                    : Center(
-                        child: Text(userData.value?['first_name'] +' ' + userData.value?['last_name']),
-                        // child: FutureBuilder(
-                        //   future: getUser(),
-                        //   builder: (BuildContext context, AsyncSnapshot snapshot) {
-                        //     if (snapshot.hasData) {
-                        //       return Text("${snapshot.data["first_name"]}",
-                        //           style: Theme.of(context).textTheme.titleMedium);
-                        //     } else {
-                        //       return const CircularProgressIndicator();
-                        //     }
-                        //   },
-                        // ),
-                      ),
-                //BUTTONS
-                const SizedBox(height: 25),
+                userData.hasError
+                    ? Text('Error')
+                    : userData.isLoading
+                        ? const CircularProgressIndicator(
+                            color: Colors.red,
+                          )
+                        : Column(
+                            children: [
+                              Center(
+                                child: Text(userData.value?['first_name'] +
+                                    ' ' +
+                                    userData.value?['last_name']),
+                              ),
+                              const Row(
+                                children: [
+                                  Text('Email '),
+                                ],
+                              ),
+                              const SizedBox(height: 25),
+                              TextFormField(
+                                autovalidateMode:
+                                    AutovalidateMode.onUserInteraction,
+                                initialValue: userController.value?.email,
+                                keyboardType: TextInputType.emailAddress,
+                                decoration: InputDecoration(
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide:
+                                        const BorderSide(color: Colors.white),
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: const BorderSide(
+                                        color: Colors.deepPurple),
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  hintText: 'example@test.com',
+                                  fillColor: Colors.grey[200],
+                                  filled: true,
+                                ),
+                              ),
+                              const Row(
+                                children: [
+                                  Text('Password'),
+                                ],
+                              ),
+                              const SizedBox(height: 14),
+                              TextFormField(
+                                autovalidateMode:
+                                    AutovalidateMode.onUserInteraction,
+                                keyboardType: TextInputType.emailAddress,
+                                decoration: InputDecoration(
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide:
+                                        const BorderSide(color: Colors.white),
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: const BorderSide(
+                                        color: Colors.deepPurple),
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  hintText: '***',
+                                  fillColor: Colors.grey[200],
+                                  filled: true,
+                                ),
+                              ),
+                              const SizedBox(height: 14),
 
-                //FORMS
+                              //AGE
+                              const Row(
+                                children: [
+                                  Text('Age'),
+                                ],
+                              ),
+                              TextFormField(
+                                initialValue: userData.value?['age'].toString(),
+                                autovalidateMode:
+                                    AutovalidateMode.onUserInteraction,
+                                keyboardType: TextInputType.number,
+                                decoration: InputDecoration(
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide:
+                                        const BorderSide(color: Colors.white),
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: const BorderSide(
+                                        color: Colors.deepPurple),
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  
+                                  hintText: 'Age',
+                                  fillColor: Colors.grey[200],
+                                  filled: true,
+                                ),
+                              ),
+                            ],
+                          ),
 
-                //EMAIL
-
-                const Row(
-                  children: [
-                    Text('Email '),
-                  ],
-                ),
-                TextFormField(
-                  autovalidateMode: AutovalidateMode.onUserInteraction,
-                  initialValue: userData.value?['email'],
-                  keyboardType: TextInputType.emailAddress,
-                  decoration: InputDecoration(
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: const BorderSide(color: Colors.white),
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: const BorderSide(color: Colors.deepPurple),
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    hintText: 'example@test.com',
-                    fillColor: Colors.grey[200],
-                    filled: true,
-                  ),
-                ),
-                const SizedBox(height: 14),
-
-                //PASSWORD
-                const Row(
-                  children: [
-                    Text('Password'),
-                  ],
-                ),
-                TextFormField(
-                  autovalidateMode: AutovalidateMode.onUserInteraction,
-                  keyboardType: TextInputType.emailAddress,
-                  decoration: InputDecoration(
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: const BorderSide(color: Colors.white),
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: const BorderSide(color: Colors.deepPurple),
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    hintText: '***',
-                    fillColor: Colors.grey[200],
-                    filled: true,
-                  ),
-                ),
-                const SizedBox(height: 14),
-
-                //AGE
-                const Row(
-                  children: [
-                    Text('Age'),
-                  ],
-                ),
-                TextFormField(
-                  autovalidateMode: AutovalidateMode.onUserInteraction,
-                  keyboardType: TextInputType.number,
-                  decoration: InputDecoration(
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: const BorderSide(color: Colors.white),
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: const BorderSide(color: Colors.deepPurple),
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    hintText: 'Age',
-                    fillColor: Colors.grey[200],
-                    filled: true,
-                  ),
-                ),
+//BUTTON
                 const SizedBox(height: 40),
                 ElevatedButton.icon(
                   onPressed: () {},

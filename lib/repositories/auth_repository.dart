@@ -54,7 +54,7 @@ class AuthRepo {
     return user;
   }
 
-  Future getCurrentUser() async {
+  Future<User?> getCurrentUser() async {
     final currentUser = await FirebaseAuth.instance.currentUser!;
     return currentUser;
   }
