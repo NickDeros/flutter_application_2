@@ -6,6 +6,7 @@ part 'auth_repository.g.dart';
 class AuthRepo {
   const AuthRepo(this.firebase);
   final FirebaseAuth firebase;
+  
   //Registration on FirebaseAuth
   Future registration(email, password) async {
     try {
@@ -52,6 +53,12 @@ class AuthRepo {
     final user = firebase.authStateChanges();
     return user;
   }
+
+  Future getCurrentUser() async {
+    final currentUser = await FirebaseAuth.instance.currentUser!;
+    return currentUser;
+  }
+
 }
 
 @Riverpod(keepAlive: true)

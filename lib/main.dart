@@ -26,16 +26,15 @@ class MyApp extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final userState = ref.watch(authStateChangeProvider);
-    bool isLogin = false;
-    if (userState.value != null){
-      isLogin = true;
-    }
+    // final userState = ref.watch(authStateChangeProvider);
+    // bool isLogin = false;
+    // if (userState.value != null){
+    //   isLogin = true;
+    // }
     print('main');
-    print(userState);
     return MaterialApp.router(
       theme: ThemeOptions.appTheme,
-      routerConfig: goRouter(isLogin),
+      routerConfig: goRouter(ref),
       debugShowCheckedModeBanner: false,
       restorationScopeId: 'app',
     );

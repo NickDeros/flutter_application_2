@@ -3,14 +3,20 @@ import 'package:flutter_application_2/pages/forgot_password_page.dart';
 import 'package:flutter_application_2/pages/home_page.dart';
 import 'package:flutter_application_2/pages/login_page.dart';
 import 'package:flutter_application_2/pages/movie_detail_page.dart';
-import 'package:flutter_application_2/pages/profile_screen.dart';
+import 'package:flutter_application_2/pages/profile_page.dart';
 import 'package:flutter_application_2/pages/register_page.dart';
+import 'package:flutter_application_2/repositories/auth_repository.dart';
 import 'package:go_router/go_router.dart';
 
-GoRouter goRouter(isLogin) {
+GoRouter goRouter(ref) {
+  final userState = ref.watch(authStateChangeProvider);
+  bool isLogin = false;
+  if (userState.value != null) {
+    isLogin = true;
+  }
   final goRouter = GoRouter(
     debugLogDiagnostics: true,
-    initialLocation: '/',
+    initialLocation: '/profile_page',
     routes: [
       GoRoute(
         path: '/',
@@ -27,7 +33,7 @@ GoRouter goRouter(isLogin) {
               path: 'profile_page',
               name: 'profile_page',
               builder: (context, state) {
-                return const ProfilePage();
+                return ProfilePage();
               }),
           GoRoute(
             path: 'detail_page/:movieId',
