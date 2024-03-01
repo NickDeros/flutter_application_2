@@ -188,7 +188,7 @@ class _ProfileControllerProviderElement
   dynamic get uid => (origin as ProfileControllerProvider).uid;
 }
 
-String _$userUpdateHash() => r'390429ea91aa5e7bfcc8c9973d53ed7ec7a228c4';
+String _$userUpdateHash() => r'a33b2b83f32ebf329888ba2e0aab793b0621a995';
 
 abstract class _$UserUpdate
     extends BuildlessAutoDisposeAsyncNotifier<Map<String, dynamic>> {

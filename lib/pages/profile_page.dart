@@ -17,6 +17,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     bool isEmailChanged = false;
+    bool isPasswordChanged = false;
     final formKey = GlobalKey<FormState>();
     final uid = 'OmDD38EIGyPC0M4e9GLAt6ht8n62';
     final userState = ref.watch(userUpdateProvider(uid));
@@ -108,6 +109,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                                   filled: true,
                                 ),
                               ),
+
                               const Row(
                                 children: [
                                   Text('Password'),
@@ -115,10 +117,15 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                               ),
                               const SizedBox(height: 14),
                               TextFormField(
+                                onChanged: (value) {
+                                  isPasswordChanged = true;
+                                  debugPrint(value);
+                                },
                                 controller: passwordController,
                                 autovalidateMode:
                                     AutovalidateMode.onUserInteraction,
                                 keyboardType: TextInputType.text,
+                                obscureText: true,
                                 decoration: InputDecoration(
                                   enabledBorder: OutlineInputBorder(
                                     borderSide:
@@ -186,6 +193,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                                         userState.value?['last_name'],
                                         userState.value?['uid'],
                                         isEmailChanged,
+                                        isPasswordChanged,
                                       );
                                 },
                               ),

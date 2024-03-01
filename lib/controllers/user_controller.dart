@@ -58,15 +58,8 @@ class UserUpdate extends _$UserUpdate {
     return userProfile;
   }
 
-  FutureOr<void> userEdit(
-    email,
-    password,
-    age,
-    first_name,
-    last_name,
-    uid,
-    bool isEmailChanged,
-  ) async {
+  FutureOr<void> userEdit(email, password, age, first_name, last_name, uid,
+      bool isEmailChanged, bool isPasswordChanged) async {
     state = AsyncLoading();
 
     UserModel userModel = UserModel(
@@ -91,6 +84,11 @@ class UserUpdate extends _$UserUpdate {
         debugPrint(email);
 
         final emailUpdated = await authRepo.updateUserEmail(email);
+        await authRepo.signOut();
+      }
+
+      if (isPasswordChanged) {
+        await authRepo.updateUserPassword(password);
         await authRepo.signOut();
       }
 
