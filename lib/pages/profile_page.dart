@@ -16,13 +16,11 @@ class ProfilePage extends ConsumerStatefulWidget {
 class _ProfilePageState extends ConsumerState<ProfilePage> {
   @override
   Widget build(BuildContext context) {
+    bool isEmailChanged = false;
     final formKey = GlobalKey<FormState>();
     final uid = 'OmDD38EIGyPC0M4e9GLAt6ht8n62';
     final userState = ref.watch(userUpdateProvider(uid));
     final userController = ref.watch(userControllerProvider);
-    final userData = ref.watch(
-      profileControllerProvider(uid),
-    );
 
     final TextEditingController emailController =
         TextEditingController(text: userState.value?['email']);
@@ -31,12 +29,11 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
         TextEditingController(text: userState.value?['age'].toString());
 
     // final TextEditingController emailController =
-    //     TextEditingController(text: userData.value?['email']);
+    //     TextEditingController(text: userState.value?['email']);
     // final TextEditingController passwordController = TextEditingController();
     // final TextEditingController ageController =
-    //     TextEditingController(text: userData.value?['age'].toString());
+    //     TextEditingController(text: userState.value?['age'].toString());
 
-    print(userData.value);
     print(userController.value?.email);
 
     return Scaffold(
@@ -64,18 +61,20 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                   ),
                 ),
                 const SizedBox(height: 10),
-                userData.hasError
-                    ? Text('Error')
-                    : userData.isLoading
-                        ? const CircularProgressIndicator(
-                            color: Colors.red,
+                userState.hasError
+                    ? Text(userState.error.toString())
+                    : userState.isLoading
+                        ? const Center(
+                            child: CircularProgressIndicator(
+                              color: Colors.red,
+                            ),
                           )
                         : Column(
                             children: [
                               Center(
-                                child: Text(userData.value?['first_name'] +
+                                child: Text(userState.value?['first_name'] +
                                     ' ' +
-                                    userData.value?['last_name']),
+                                    userState.value?['last_name']),
                               ),
                               const Row(
                                 children: [
@@ -85,6 +84,10 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                               const SizedBox(height: 25),
                               //TODO: VALIDATORS
                               TextFormField(
+                                onChanged: (value) {
+                                  isEmailChanged = true;
+                                  debugPrint(value);
+                                },
                                 controller: emailController,
                                 autovalidateMode:
                                     AutovalidateMode.onUserInteraction,
@@ -176,12 +179,14 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                                   ref
                                       .read(userUpdateProvider(uid).notifier)
                                       .userEdit(
-                                          emailController.text.trim(),
-                                          passwordController.text.trim(),
-                                          int.parse(ageController.text.trim()),
-                                          userData.value?['first_name'],
-                                          userData.value?['last_name'],
-                                          userData.value?['uid']);
+                                        emailController.text.trim(),
+                                        passwordController.text.trim(),
+                                        int.parse(ageController.text.trim()),
+                                        userState.value?['first_name'],
+                                        userState.value?['last_name'],
+                                        userState.value?['uid'],
+                                        isEmailChanged,
+                                      );
                                 },
                               ),
                             ],

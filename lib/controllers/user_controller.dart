@@ -65,6 +65,7 @@ class UserUpdate extends _$UserUpdate {
     first_name,
     last_name,
     uid,
+    bool isEmailChanged,
   ) async {
     state = AsyncLoading();
 
@@ -81,11 +82,20 @@ class UserUpdate extends _$UserUpdate {
       debugPrint('user controller');
       debugPrint(userModel.toString());
       final userRepo = ref.read(userRepoProvider);
+      final authRepo = ref.read(authRepoProvider);
       //modificare nel database firestore
       final userUpdated = await userRepo.editUser(user: userModel);
       //modificare email e password auth
-      // state = AsyncData();
+      if (isEmailChanged) {
+        debugPrint(isEmailChanged.toString());
+        debugPrint(email);
+
+        final emailUpdated = await authRepo.updateUserEmail(email);
+        await authRepo.signOut();
+      }
+
       ref.invalidateSelf();
+
       await future;
     } catch (e) {
       state = AsyncError(e, StackTrace.current);
