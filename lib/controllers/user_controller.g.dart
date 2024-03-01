@@ -6,7 +6,7 @@ part of 'user_controller.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$userControllerHash() => r'049ea295322df739d9a1796573c76ce8342a176c';
+String _$userControllerHash() => r'6cb90a18ea300619911b79e582a15c3021b9bbf2';
 
 /// See also [UserController].
 @ProviderFor(UserController)
@@ -22,7 +22,7 @@ final userControllerProvider =
 );
 
 typedef _$UserController = AutoDisposeAsyncNotifier<User?>;
-String _$profileControllerHash() => r'751fce078a2582ac0af7e1348d9567504f0e1d6e';
+String _$profileControllerHash() => r'f5f987554bfdb3ded8286c215c4643280ee1dedf';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -186,6 +186,151 @@ class _ProfileControllerProviderElement
 
   @override
   dynamic get uid => (origin as ProfileControllerProvider).uid;
+}
+
+String _$userUpdateHash() => r'b44ced79aa7f0109b5e25bcc4ad73e2c1455398b';
+
+abstract class _$UserUpdate
+    extends BuildlessAutoDisposeAsyncNotifier<Map<String, dynamic>> {
+  late final dynamic uid;
+
+  FutureOr<Map<String, dynamic>> build(
+    dynamic uid,
+  );
+}
+
+/// See also [UserUpdate].
+@ProviderFor(UserUpdate)
+const userUpdateProvider = UserUpdateFamily();
+
+/// See also [UserUpdate].
+class UserUpdateFamily extends Family<AsyncValue<Map<String, dynamic>>> {
+  /// See also [UserUpdate].
+  const UserUpdateFamily();
+
+  /// See also [UserUpdate].
+  UserUpdateProvider call(
+    dynamic uid,
+  ) {
+    return UserUpdateProvider(
+      uid,
+    );
+  }
+
+  @override
+  UserUpdateProvider getProviderOverride(
+    covariant UserUpdateProvider provider,
+  ) {
+    return call(
+      provider.uid,
+    );
+  }
+
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'userUpdateProvider';
+}
+
+/// See also [UserUpdate].
+class UserUpdateProvider extends AutoDisposeAsyncNotifierProviderImpl<
+    UserUpdate, Map<String, dynamic>> {
+  /// See also [UserUpdate].
+  UserUpdateProvider(
+    dynamic uid,
+  ) : this._internal(
+          () => UserUpdate()..uid = uid,
+          from: userUpdateProvider,
+          name: r'userUpdateProvider',
+          debugGetCreateSourceHash:
+              const bool.fromEnvironment('dart.vm.product')
+                  ? null
+                  : _$userUpdateHash,
+          dependencies: UserUpdateFamily._dependencies,
+          allTransitiveDependencies:
+              UserUpdateFamily._allTransitiveDependencies,
+          uid: uid,
+        );
+
+  UserUpdateProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.uid,
+  }) : super.internal();
+
+  final dynamic uid;
+
+  @override
+  FutureOr<Map<String, dynamic>> runNotifierBuild(
+    covariant UserUpdate notifier,
+  ) {
+    return notifier.build(
+      uid,
+    );
+  }
+
+  @override
+  Override overrideWith(UserUpdate Function() create) {
+    return ProviderOverride(
+      origin: this,
+      override: UserUpdateProvider._internal(
+        () => create()..uid = uid,
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        uid: uid,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeAsyncNotifierProviderElement<UserUpdate, Map<String, dynamic>>
+      createElement() {
+    return _UserUpdateProviderElement(this);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is UserUpdateProvider && other.uid == uid;
+  }
+
+  @override
+  int get hashCode {
+    var hash = _SystemHash.combine(0, runtimeType.hashCode);
+    hash = _SystemHash.combine(hash, uid.hashCode);
+
+    return _SystemHash.finish(hash);
+  }
+}
+
+mixin UserUpdateRef
+    on AutoDisposeAsyncNotifierProviderRef<Map<String, dynamic>> {
+  /// The parameter `uid` of this provider.
+  dynamic get uid;
+}
+
+class _UserUpdateProviderElement
+    extends AutoDisposeAsyncNotifierProviderElement<UserUpdate,
+        Map<String, dynamic>> with UserUpdateRef {
+  _UserUpdateProviderElement(super.provider);
+
+  @override
+  dynamic get uid => (origin as UserUpdateProvider).uid;
 }
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

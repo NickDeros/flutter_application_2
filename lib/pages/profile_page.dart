@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_2/controllers/user_controller.dart';
+import 'package:flutter_application_2/models/user_model.dart';
 import 'package:flutter_application_2/repositories/user_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -13,14 +14,31 @@ class ProfilePage extends ConsumerStatefulWidget {
 }
 
 class _ProfilePageState extends ConsumerState<ProfilePage> {
-  final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
+    final formKey = GlobalKey<FormState>();
+    final uid = 'OmDD38EIGyPC0M4e9GLAt6ht8n62';
+    final userState = ref.watch(userUpdateProvider(uid));
     final userController = ref.watch(userControllerProvider);
-    final userData =
-        ref.watch(ProfileControllerProvider('OmDD38EIGyPC0M4e9GLAt6ht8n62'));
+    final userData = ref.watch(
+      profileControllerProvider(uid),
+    );
+
+    final TextEditingController emailController =
+        TextEditingController(text: userState.value?['email']);
+    final TextEditingController passwordController = TextEditingController();
+    final TextEditingController ageController =
+        TextEditingController(text: userState.value?['age'].toString());
+
+    // final TextEditingController emailController =
+    //     TextEditingController(text: userData.value?['email']);
+    // final TextEditingController passwordController = TextEditingController();
+    // final TextEditingController ageController =
+    //     TextEditingController(text: userData.value?['age'].toString());
+
     print(userData.value);
     print(userController.value?.email);
+
     return Scaffold(
       appBar: AppBar(
         iconTheme: Theme.of(context).iconTheme,
@@ -33,7 +51,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
         child: Padding(
           padding: const EdgeInsets.all(20.0),
           child: Form(
-            key: _formKey,
+            key: formKey,
             child: Column(
               children: [
                 const SizedBox(height: 25),
@@ -65,10 +83,11 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                                 ],
                               ),
                               const SizedBox(height: 25),
+                              //TODO: VALIDATORS
                               TextFormField(
+                                controller: emailController,
                                 autovalidateMode:
                                     AutovalidateMode.onUserInteraction,
-                                initialValue: userController.value?.email,
                                 keyboardType: TextInputType.emailAddress,
                                 decoration: InputDecoration(
                                   enabledBorder: OutlineInputBorder(
@@ -93,9 +112,10 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                               ),
                               const SizedBox(height: 14),
                               TextFormField(
+                                controller: passwordController,
                                 autovalidateMode:
                                     AutovalidateMode.onUserInteraction,
-                                keyboardType: TextInputType.emailAddress,
+                                keyboardType: TextInputType.text,
                                 decoration: InputDecoration(
                                   enabledBorder: OutlineInputBorder(
                                     borderSide:
@@ -107,7 +127,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                                         color: Colors.deepPurple),
                                     borderRadius: BorderRadius.circular(12),
                                   ),
-                                  hintText: '***',
+                                  hintText: '*****',
                                   fillColor: Colors.grey[200],
                                   filled: true,
                                 ),
@@ -121,7 +141,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                                 ],
                               ),
                               TextFormField(
-                                initialValue: userData.value?['age'].toString(),
+                                controller: ageController,
                                 autovalidateMode:
                                     AutovalidateMode.onUserInteraction,
                                 keyboardType: TextInputType.number,
@@ -136,35 +156,36 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                                         color: Colors.deepPurple),
                                     borderRadius: BorderRadius.circular(12),
                                   ),
-                                  
                                   hintText: 'Age',
                                   fillColor: Colors.grey[200],
                                   filled: true,
                                 ),
                               ),
+
+                              const SizedBox(height: 40),
+                              ElevatedButton(
+                                child: userState.isLoading
+                                    ? const CircularProgressIndicator(
+                                        color: Colors.red,
+                                      )
+                                    : const Text('Submit'),
+                                onPressed: () {
+                                  print('SONO ONPRESSED');
+                                  print(ageController.text);
+
+                                  ref
+                                      .read(userUpdateProvider(uid).notifier)
+                                      .userEdit(
+                                          emailController.text.trim(),
+                                          passwordController.text.trim(),
+                                          int.parse(ageController.text.trim()),
+                                          userData.value?['first_name'],
+                                          userData.value?['last_name'],
+                                          userData.value?['uid']);
+                                },
+                              ),
                             ],
                           ),
-
-//BUTTON
-                const SizedBox(height: 40),
-                ElevatedButton.icon(
-                  onPressed: () {},
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.greenAccent,
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 12, horizontal: 90),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                  ),
-                  label: Text(
-                    'Confirm',
-                    style: GoogleFonts.roboto(
-                      fontSize: 25,
-                    ),
-                  ),
-                  icon: const Icon(Icons.save),
-                ),
               ],
             ),
           ),
