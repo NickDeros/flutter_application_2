@@ -10,6 +10,7 @@ import 'package:go_router/go_router.dart';
 
 GoRouter goRouter(ref) {
   final userState = ref.watch(authStateChangeProvider);
+
   bool isLogin = false;
   if (userState.value != null) {
     isLogin = true;

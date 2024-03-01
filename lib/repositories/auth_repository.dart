@@ -88,3 +88,9 @@ AuthRepo authRepo(AuthRepoRef ref) {
 Stream authStateChange(AuthStateChangeRef ref) {
   return ref.watch(authRepoProvider).authStateChange();
 }
+
+@riverpod
+Future<String?> uid(UidRef ref) async {
+  final user = await ref.watch(authRepoProvider).getCurrentUser();
+  return user!.uid;
+}

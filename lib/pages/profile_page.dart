@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_2/controllers/user_controller.dart';
 import 'package:flutter_application_2/models/user_model.dart';
+import 'package:flutter_application_2/repositories/auth_repository.dart';
 import 'package:flutter_application_2/repositories/user_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -19,7 +20,9 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
     bool isEmailChanged = false;
     bool isPasswordChanged = false;
     final formKey = GlobalKey<FormState>();
-    final uid = 'OmDD38EIGyPC0M4e9GLAt6ht8n62';
+
+    final uid = ref.watch(uidProvider).value;
+
     final userState = ref.watch(userUpdateProvider(uid));
     final userController = ref.watch(userControllerProvider);
 
@@ -28,12 +31,6 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
     final TextEditingController passwordController = TextEditingController();
     final TextEditingController ageController =
         TextEditingController(text: userState.value?['age'].toString());
-
-    // final TextEditingController emailController =
-    //     TextEditingController(text: userState.value?['email']);
-    // final TextEditingController passwordController = TextEditingController();
-    // final TextEditingController ageController =
-    //     TextEditingController(text: userState.value?['age'].toString());
 
     print(userController.value?.email);
 
