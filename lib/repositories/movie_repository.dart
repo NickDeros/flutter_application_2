@@ -1,5 +1,8 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+
+part 'movie_repository.g.dart';
 
 class MovieRepo {
   String url = 'https://api.themoviedb.org/3';
@@ -126,7 +129,8 @@ class MovieRepo {
 
         final data = jsonDecode(response.body);
         List results = data['results'];
-        final dataFilter = results.where((value) => value['type'] == 'Trailer').toList();
+        final dataFilter =
+            results.where((value) => value['type'] == 'Trailer').toList();
         print(data['results']);
         print('data filter');
         print(dataFilter);
@@ -141,4 +145,35 @@ class MovieRepo {
       print(e.toString());
     }
   }
+
+  Future searchMovie(String keyword) async {
+    try {
+      final response = await http
+          .get(Uri.parse('$url/search/keyword?query=$keyword'), headers: {
+        'accept': 'application/json',
+        'Authorization': 'Bearer $token',
+      });
+      if (response.statusCode == 200) {
+        print("get search");
+        print("Success");
+
+        final data = jsonDecode(response.body);
+        List results = data['results'];
+        print(data['results']);
+        return results;
+      } else {
+        print("Error get videos");
+        print("Error 401");
+        // throw Exception('Access Denied!');
+        return "error";
+      }
+    } on Exception catch (e) {
+      print(e.toString());
+    }
+  }
+}
+
+@Riverpod(keepAlive: true)
+MovieRepo movieRepo(MovieRepoRef ref) {
+  return MovieRepo();
 }

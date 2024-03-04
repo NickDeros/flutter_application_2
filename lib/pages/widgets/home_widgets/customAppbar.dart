@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_2/repositories/user_repository.dart';
+import 'package:go_router/go_router.dart';
 
 class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
   const CustomAppBar({super.key});
@@ -38,7 +39,9 @@ class CustomAppBarState extends State<CustomAppBar> {
       actions: [
         // ICON SEARCH
         IconButton(
-          onPressed: () {},
+          onPressed: () {
+            context.go('/search_page');
+          },
           icon: const Icon(Icons.search, size: 40, color: Colors.white),
         ),
       ],

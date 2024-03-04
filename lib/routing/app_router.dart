@@ -5,6 +5,7 @@ import 'package:flutter_application_2/pages/login_page.dart';
 import 'package:flutter_application_2/pages/movie_detail_page.dart';
 import 'package:flutter_application_2/pages/profile_page.dart';
 import 'package:flutter_application_2/pages/register_page.dart';
+import 'package:flutter_application_2/pages/search_page.dart';
 import 'package:flutter_application_2/repositories/auth_repository.dart';
 import 'package:go_router/go_router.dart';
 
@@ -17,7 +18,7 @@ GoRouter goRouter(ref) {
   }
   final goRouter = GoRouter(
     debugLogDiagnostics: true,
-    initialLocation: '/profile_page',
+    initialLocation: '/search_page',
     routes: [
       GoRoute(
         path: '/',
@@ -30,6 +31,12 @@ GoRouter goRouter(ref) {
           return null;
         },
         routes: [
+          GoRoute(
+              path: 'search_page',
+              name: 'search_page',
+              builder: (context, state) {
+                return const SearchPage();
+              }),
           GoRoute(
               path: 'profile_page',
               name: 'profile_page',
