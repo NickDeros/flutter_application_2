@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter_application_2/models/search_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -146,7 +147,7 @@ class MovieRepo {
     }
   }
 
-  Future searchMovie(String keyword) async {
+  FutureOr<List<SearchModel>?> searchMovie(String keyword) async {
     try {
       final response = await http
           .get(Uri.parse('$url/search/keyword?query=$keyword'), headers: {
@@ -160,20 +161,20 @@ class MovieRepo {
         final data = jsonDecode(response.body);
         List results = data['results'];
         print(data['results']);
-        return results;
+        return results.map((e) => SearchModel.fromJson(e)).toList();
       } else {
         print("Error get videos");
         print("Error 401");
         // throw Exception('Access Denied!');
-        return "error";
       }
     } on Exception catch (e) {
       print(e.toString());
     }
+    return null;
   }
 }
 
-@Riverpod(keepAlive: true)
+@riverpod
 MovieRepo movieRepo(MovieRepoRef ref) {
   return MovieRepo();
 }

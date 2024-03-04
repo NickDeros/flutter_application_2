@@ -6,11 +6,11 @@ part of 'movie_repository.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$movieRepoHash() => r'e83c643878fc9e7cfe6200a6e1892b0e83737fdb';
+String _$movieRepoHash() => r'ee623a25e712f51fc7b2e992b9d5c909c62e956e';
 
 /// See also [movieRepo].
 @ProviderFor(movieRepo)
-final movieRepoProvider = Provider<MovieRepo>.internal(
+final movieRepoProvider = AutoDisposeProvider<MovieRepo>.internal(
   movieRepo,
   name: r'movieRepoProvider',
   debugGetCreateSourceHash:
@@ -19,6 +19,6 @@ final movieRepoProvider = Provider<MovieRepo>.internal(
   allTransitiveDependencies: null,
 );
 
-typedef MovieRepoRef = ProviderRef<MovieRepo>;
+typedef MovieRepoRef = AutoDisposeProviderRef<MovieRepo>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member
