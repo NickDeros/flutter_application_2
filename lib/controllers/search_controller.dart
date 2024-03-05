@@ -6,17 +6,32 @@ part 'search_controller.g.dart';
 @riverpod
 class SearchController extends _$SearchController {
   @override
-  FutureOr<List<SearchModel>?> build() async {
-  print('sono build');
+  FutureOr<List<dynamic>?> build() async {
+    print('sono build');
   }
 
-  FutureOr<List<SearchModel>?> searchByKeyword(keyword) async {
+  FutureOr<List<dynamic>?> searchByKeyword(keyword) async {
+    List movieList = [];
     state = AsyncLoading();
     try {
       final response = await ref.read(movieRepoProvider).searchMovie(keyword);
-      print(response);
-      state = AsyncData(response);
-      return response;
+      for (var element in response!) {
+        print(element.name.toString());
+        // Prendere ID Film,
+        final movieResponse =
+            await ref.read(movieRepoProvider).getMovie(element.id.toString());
+        if (movieResponse != 'error') {
+          movieList.add(movieResponse);
+        }
+        print('sono movie response by id');
+        print(movieResponse);
+
+        //creare ui
+      }
+      print('movie LIST');
+      print(movieList);
+      state = AsyncData(movieList);
+      return movieList;
     } catch (e) {
       state = AsyncError(e, StackTrace.current);
     }

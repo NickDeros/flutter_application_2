@@ -20,9 +20,7 @@ class SearchPage extends ConsumerWidget {
     print(searchState.hasValue.toString());
     print(searchState);
     return Scaffold(
-      appBar: AppBar(
-        title: Text('test'),
-      ),
+      appBar: AppBar(title: Text('test')),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(20.0),
@@ -73,7 +71,7 @@ class SearchPage extends ConsumerWidget {
                             children: [
                               Icon(Icons.movie_creation_rounded),
                               Text(
-                                searchState.value![index].name,
+                                searchState.value![index]['original_title'],
                                 style: TextStyle(color: Colors.white),
                               )
                             ],

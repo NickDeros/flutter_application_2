@@ -161,7 +161,8 @@ class MovieRepo {
         final data = jsonDecode(response.body);
         List results = data['results'];
         print(data['results']);
-        return results.map((e) => SearchModel.fromJson(e)).toList();
+        final resultsKeyword = results.map((e) => SearchModel.fromJson(e)).toList();
+        return resultsKeyword;
       } else {
         print("Error get videos");
         print("Error 401");
