@@ -1,5 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_2/utils/constants.dart';
 import 'package:go_router/go_router.dart';
 
 class TopRatedCarousel extends StatelessWidget {
@@ -8,7 +9,6 @@ class TopRatedCarousel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String url = 'https://image.tmdb.org/t/p/original';
     return CarouselSlider.builder(
       itemCount: snapshot.data.length,
       options: CarouselOptions(
@@ -28,7 +28,7 @@ class TopRatedCarousel extends StatelessWidget {
                 onTap: () => context.go('/detail_page/$movieId'),
                 child: Image(
                   image: NetworkImage(
-                      url + snapshot.data![itemIndex]['poster_path']),
+                      imageUrl + snapshot.data![itemIndex]['poster_path']),
                   fit: BoxFit.fill,
                   filterQuality: FilterQuality.low,
                   loadingBuilder: (context, child, loadingProgress) {

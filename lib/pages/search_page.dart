@@ -1,18 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_2/controllers/search_controller.dart';
 import 'package:flutter_application_2/repositories/movie_repository.dart';
+import 'package:flutter_application_2/utils/constants.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class SearchPage extends ConsumerWidget {
   const SearchPage({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    print('REFWATCH');
-    List<Map<String, dynamic>> list = [
-      {"id": 262419, "name": "lost"},
-      {"id": 5930, "name": "getting" "lost"},
-    ];
     final searchState = ref.watch(searchControllerProvider);
     final _formKey = GlobalKey<FormState>();
     final myController = TextEditingController();
@@ -67,15 +64,54 @@ class SearchPage extends ConsumerWidget {
                         physics: NeverScrollableScrollPhysics(),
                         itemCount: searchState.value!.length,
                         itemBuilder: (context, index) {
-                          return Row(
-                            children: [
-                              Icon(Icons.movie_creation_rounded),
-                              Text(
-                                searchState.value![index]['original_title'],
-                                style: TextStyle(color: Colors.white),
-                              )
-                            ],
+                          return ClipRRect(
+                            borderRadius: BorderRadius.circular(12),
+                            child: Stack(
+                              children: [
+                                GestureDetector(
+                                  onTap: () {
+                                    final movieId =
+                                        searchState.value![index].id.toString();
+                                    context.go('/detail_page/$movieId');
+                                  },
+                                  child:
+                                      searchState.value![index].poster_path ==
+                                              null
+                                          ? Text('image null')
+                                          : Image(
+                                              image: NetworkImage(imageUrl +
+                                                  searchState.value![index].poster_path!),
+                                              fit: BoxFit.fill,
+                                              filterQuality: FilterQuality.low,
+                                              loadingBuilder: (context, child,
+                                                  loadingProgress) {
+                                                if (loadingProgress == null) {
+                                                  return child;
+                                                }
+                                                return const Center(
+                                                    child:
+                                                        CircularProgressIndicator());
+                                              },
+                                            ),
+                                ),
+                                const Padding(
+                                  padding: EdgeInsets.symmetric(
+                                    horizontal: 8,
+                                    vertical: 8,
+                                  ),
+                                ),
+                              ],
+                            ),
                           );
+                          // Row(
+                          //   children: [
+                          //     Icon(Icons.movie_creation_rounded),
+                          //     Text(
+                          //       searchState.value![index]['original_title'],
+                          //       style: TextStyle(color: Colors.white),
+                          //     )
+                          //   ],
+                          // );
                         },
                       )
                 : Text(''),

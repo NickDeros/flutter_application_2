@@ -1,19 +1,19 @@
 import 'dart:convert';
 import 'package:flutter_application_2/models/search_model.dart';
+import 'package:flutter_application_2/utils/constants.dart';
 import 'package:http/http.dart' as http;
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'movie_repository.g.dart';
 
 class MovieRepo {
-  String url = 'https://api.themoviedb.org/3';
   String token =
       'eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI0Njk1NjU2MjkzYTZkY2VmYmZlNjZjNjQ0NDlkNjU4MCIsInN1YiI6IjY1YzM0MDNlY2I3NWQxMDEzMDZiYzBmZCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.NBiMsIPFZyRzQ70Y8xDedrf42ghL7GmUsaFe3ckQT34';
 
   Future fetchTrending() async {
     try {
       final response =
-          await http.get(Uri.parse('$url/movie/popular'), headers: {
+          await http.get(Uri.parse('$dbUrl/movie/popular'), headers: {
         'accept': 'application/json',
         'Authorization': 'Bearer $token',
       });
@@ -34,7 +34,7 @@ class MovieRepo {
   Future fetchTopRated() async {
     try {
       final response =
-          await http.get(Uri.parse('$url/movie/top_rated'), headers: {
+          await http.get(Uri.parse('$dbUrl/movie/top_rated'), headers: {
         'accept': 'application/json',
         'Authorization': 'Bearer $token',
       });
@@ -55,7 +55,7 @@ class MovieRepo {
   Future fetchMoviesInTheatres() async {
     try {
       final response =
-          await http.get(Uri.parse('$url/movie/now_playing'), headers: {
+          await http.get(Uri.parse('$dbUrl/movie/now_playing'), headers: {
         'accept': 'application/json',
         'Authorization': 'Bearer $token',
       });
@@ -76,7 +76,7 @@ class MovieRepo {
   Future fetchComingSoon() async {
     try {
       final response =
-          await http.get(Uri.parse('$url/movie/upcoming'), headers: {
+          await http.get(Uri.parse('$dbUrl/movie/upcoming'), headers: {
         'accept': 'application/json',
         'Authorization': 'Bearer $token',
       });
@@ -97,7 +97,7 @@ class MovieRepo {
   Future getMovie(movieId) async {
     try {
       final response =
-          await http.get(Uri.parse('$url/movie/$movieId'), headers: {
+          await http.get(Uri.parse('$dbUrl/movie/$movieId'), headers: {
         'accept': 'application/json',
         'Authorization': 'Bearer $token',
       });
@@ -120,7 +120,7 @@ class MovieRepo {
   Future getVideos(movieId) async {
     try {
       final response =
-          await http.get(Uri.parse('$url/movie/$movieId/videos'), headers: {
+          await http.get(Uri.parse('$dbUrl/movie/$movieId/videos'), headers: {
         'accept': 'application/json',
         'Authorization': 'Bearer $token',
       });
@@ -150,7 +150,7 @@ class MovieRepo {
   FutureOr<List<SearchModel>?> searchMovie(String keyword) async {
     try {
       final response = await http
-          .get(Uri.parse('$url/search/keyword?query=$keyword'), headers: {
+          .get(Uri.parse('$dbUrl/search/movie?query=$keyword'), headers: {
         'accept': 'application/json',
         'Authorization': 'Bearer $token',
       });
@@ -162,6 +162,7 @@ class MovieRepo {
         List results = data['results'];
         print(data['results']);
         final resultsKeyword = results.map((e) => SearchModel.fromJson(e)).toList();
+        print(data[resultsKeyword]);
         return resultsKeyword;
       } else {
         print("Error get videos");

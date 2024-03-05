@@ -6,34 +6,40 @@ part 'search_controller.g.dart';
 @riverpod
 class SearchController extends _$SearchController {
   @override
-  FutureOr<List<dynamic>?> build() async {
+  FutureOr<List<SearchModel>?> build() async {
     print('sono build');
   }
 
-  FutureOr<List<dynamic>?> searchByKeyword(keyword) async {
+  FutureOr<List<SearchModel>?> searchByKeyword(keyword) async {
     List movieList = [];
     state = AsyncLoading();
     try {
       final response = await ref.read(movieRepoProvider).searchMovie(keyword);
-      for (var element in response!) {
-        print(element.name.toString());
-        // Prendere ID Film,
-        final movieResponse =
-            await ref.read(movieRepoProvider).getMovie(element.id.toString());
-        if (movieResponse != 'error') {
-          movieList.add(movieResponse);
-        }
-        print('sono movie response by id');
-        print(movieResponse);
+      print('SONO RESPONSE IN CONTROLLER');
+      print(response);
+      // for (var element in response!) {
+      //   print(element.title.toString());
+      //   // Prendere ID Film,
+      //   final movieResponse =
+      //       await ref.read(movieRepoProvider).getMovie(element.id.toString());
+      //   print('POSTER PATH');
+      //   //print(movieResponse['poster_path']);
+      //   if (movieResponse != 'error') {
+      //   //if (movieResponse != 'error' || movieResponse['poster_path'] != null) {
+      //     movieList.add(movieResponse);
+      //   }
+      //   print('sono movie response by id');
+      //   print(movieResponse);
 
-        //creare ui
-      }
-      print('movie LIST');
-      print(movieList);
-      state = AsyncData(movieList);
-      return movieList;
+      //   //creare ui
+      // }
+      state = AsyncData(response);
+      return response;
+      // state = AsyncData(movieList);
+      // return movieList;
     } catch (e) {
       state = AsyncError(e, StackTrace.current);
+      print(e.toString());
     }
   }
 }
