@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_2/pages/favorites_page.dart';
 import 'package:flutter_application_2/pages/forgot_password_page.dart';
 import 'package:flutter_application_2/pages/home_page.dart';
 import 'package:flutter_application_2/pages/login_page.dart';
@@ -18,7 +19,7 @@ GoRouter goRouter(ref) {
   }
   final goRouter = GoRouter(
     debugLogDiagnostics: true,
-    initialLocation: '/search_page',
+    initialLocation: '/',
     routes: [
       GoRoute(
         path: '/',
@@ -31,6 +32,12 @@ GoRouter goRouter(ref) {
           return null;
         },
         routes: [
+          GoRoute(
+              path: 'favorites_page',
+              name: 'favorites_page',
+              builder: (context, state) {
+                return const FavoritesPage();
+              }),
           GoRoute(
               path: 'search_page',
               name: 'search_page',

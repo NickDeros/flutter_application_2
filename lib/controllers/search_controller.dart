@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter_application_2/models/search_model.dart';
 import 'package:flutter_application_2/repositories/movie_repository.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -17,29 +19,23 @@ class SearchController extends _$SearchController {
       final response = await ref.read(movieRepoProvider).searchMovie(keyword);
       print('SONO RESPONSE IN CONTROLLER');
       print(response);
-      // for (var element in response!) {
-      //   print(element.title.toString());
-      //   // Prendere ID Film,
-      //   final movieResponse =
-      //       await ref.read(movieRepoProvider).getMovie(element.id.toString());
-      //   print('POSTER PATH');
-      //   //print(movieResponse['poster_path']);
-      //   if (movieResponse != 'error') {
-      //   //if (movieResponse != 'error' || movieResponse['poster_path'] != null) {
-      //     movieList.add(movieResponse);
-      //   }
-      //   print('sono movie response by id');
-      //   print(movieResponse);
-
-      //   //creare ui
-      // }
       state = AsyncData(response);
       return response;
-      // state = AsyncData(movieList);
-      // return movieList;
     } catch (e) {
       state = AsyncError(e, StackTrace.current);
       print(e.toString());
     }
+  }
+}
+
+@riverpod
+class SaveKeyword extends _$SaveKeyword {
+  @override
+  String build() {
+    return '';
+  }
+
+  void updateKeyword(String keyword) {
+      state = keyword;
   }
 }

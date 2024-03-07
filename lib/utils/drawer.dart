@@ -70,6 +70,7 @@ class _MyDrawerState extends State<MyDrawer> {
               color: Color.fromARGB(255, 0, 23, 31),
             ),
           ),
+          // PROFILE
           ListTile(
             leading: const Icon(
               Icons.person,
@@ -83,6 +84,21 @@ class _MyDrawerState extends State<MyDrawer> {
               context.go('/profile_page');
             },
           ),
+            //FAVORITES
+          ListTile(
+            leading: const Icon(
+              Icons.favorite,
+              color: Colors.white,
+            ),
+            title: Text(
+              "Favorites",
+              style: Theme.of(context).textTheme.titleSmall,
+            ),
+            onTap: () {
+              context.go('/favorites_page');
+            },
+          ),
+            // LOGOUT
           ListTile(
             leading: const Icon(
               Icons.logout,

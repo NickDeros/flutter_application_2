@@ -7,27 +7,38 @@ import 'package:go_router/go_router.dart';
 
 class SearchPage extends ConsumerWidget {
   const SearchPage({super.key});
-
+  static final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final searchState = ref.watch(searchControllerProvider);
-    final _formKey = GlobalKey<FormState>();
     final myController = TextEditingController();
+    final keywordState = ref.watch(saveKeywordProvider);
     print('sono search state');
     print(searchState.hasValue.toString());
     print(searchState);
     return Scaffold(
-      appBar: AppBar(title: Text('test')),
+      appBar: AppBar(title: Text('Search Movies')),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(20.0),
           child: Column(children: [
+            //FORM
             Center(
               child: Form(
+                onChanged: () {
+                  String keyword = myController.text.trim();
+                  ref.read(saveKeywordProvider.notifier).updateKeyword(keyword);
+                  ref
+                      .read(searchControllerProvider.notifier)
+                      .searchByKeyword(keyword);
+                  print('sono search PRESSED');
+                  print(searchState.hasValue.toString());
+                },
                 key: _formKey,
                 child: TextFormField(
-                  controller: myController,
+                  controller: myController..text = keywordState,
                   decoration: InputDecoration(
+                    prefixIcon: const Icon(Icons.search),
                     enabledBorder: OutlineInputBorder(
                       borderSide: const BorderSide(color: Colors.white),
                       borderRadius: BorderRadius.circular(12),
@@ -43,76 +54,53 @@ class SearchPage extends ConsumerWidget {
               ),
             ),
             const SizedBox(height: 10),
-            ElevatedButton(
-              onPressed: () {
-                String keyword = myController.text.trim();
-                ref
-                    .read(searchControllerProvider.notifier)
-                    .searchByKeyword(keyword);
-                print('sono search PRESSED');
-                print(searchState.hasValue.toString());
-              },
-              child: searchState.isLoading
-                  ? const CircularProgressIndicator()
-                  : const Text('Search'),
-            ),
+
             searchState.value?.length != null
                 ? searchState.value?.length == 0
                     ? Text('No Results')
-                    : ListView.builder(
-                        shrinkWrap: true,
-                        physics: NeverScrollableScrollPhysics(),
-                        itemCount: searchState.value!.length,
-                        itemBuilder: (context, index) {
-                          return ClipRRect(
-                            borderRadius: BorderRadius.circular(12),
-                            child: Stack(
-                              children: [
-                                GestureDetector(
-                                  onTap: () {
-                                    final movieId =
-                                        searchState.value![index].id.toString();
-                                    context.go('/detail_page/$movieId');
-                                  },
-                                  child:
-                                      searchState.value![index].poster_path ==
-                                              null
-                                          ? Text('image null')
-                                          : Image(
-                                              image: NetworkImage(imageUrl +
-                                                  searchState.value![index].poster_path!),
-                                              fit: BoxFit.fill,
-                                              filterQuality: FilterQuality.low,
-                                              loadingBuilder: (context, child,
-                                                  loadingProgress) {
-                                                if (loadingProgress == null) {
-                                                  return child;
-                                                }
-                                                return const Center(
-                                                    child:
-                                                        CircularProgressIndicator());
-                                              },
-                                            ),
-                                ),
-                                const Padding(
-                                  padding: EdgeInsets.symmetric(
-                                    horizontal: 8,
-                                    vertical: 8,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          );
-                          // Row(
-                          //   children: [
-                          //     Icon(Icons.movie_creation_rounded),
-                          //     Text(
-                          //       searchState.value![index]['original_title'],
-                          //       style: TextStyle(color: Colors.white),
-                          //     )
-                          //   ],
-                          // );
-                        },
+                    : Center(
+                        child: GridView.builder(
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                            childAspectRatio: 0.75,
+                            crossAxisCount: 2,
+                            crossAxisSpacing: 20.0,
+                            mainAxisSpacing: 10,
+                          ),
+                          shrinkWrap: true,
+                          physics: NeverScrollableScrollPhysics(),
+                          itemCount: searchState.value!.length,
+                          itemBuilder: (context, index) {
+                            return ClipRRect(
+                              child: GestureDetector(
+                                onTap: () {
+                                  final movieId =
+                                      searchState.value![index].id.toString();
+                                  context.push('/detail_page/$movieId');
+                                },
+                                child: searchState.value![index].poster_path ==
+                                        null
+                                    ? Text('image null')
+                                    : Image(
+                                        image: NetworkImage(imageUrl +
+                                            searchState
+                                                .value![index].poster_path!),
+                                        fit: BoxFit.cover,
+                                        filterQuality: FilterQuality.low,
+                                        loadingBuilder:
+                                            (context, child, loadingProgress) {
+                                          if (loadingProgress == null) {
+                                            return child;
+                                          }
+                                          return const Center(
+                                              child:
+                                                  CircularProgressIndicator());
+                                        },
+                                      ),
+                              ),
+                            );
+                          },
+                        ),
                       )
                 : Text(''),
           ]),
