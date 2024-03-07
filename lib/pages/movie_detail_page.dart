@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_application_2/controllers/favorites_controller.dart';
 import 'package:flutter_application_2/controllers/movie_controller.dart';
 import 'package:flutter_application_2/pages/widgets/movie_detail_widgets/download_button.dart';
 import 'package:flutter_application_2/pages/widgets/movie_detail_widgets/movie_detail_image.dart';
@@ -9,19 +10,22 @@ import 'package:flutter_application_2/pages/widgets/movie_detail_widgets/overvie
 import 'package:flutter_application_2/pages/widgets/movie_detail_widgets/play_button.dart';
 import 'package:flutter_application_2/pages/widgets/movie_detail_widgets/rating.dart';
 import 'package:flutter_application_2/pages/widgets/movie_detail_widgets/trailer_on_YT.dart';
+import 'package:flutter_application_2/repositories/auth_repository.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class MovieDetailPage extends StatefulWidget {
+class MovieDetailPage extends ConsumerStatefulWidget {
   const MovieDetailPage({super.key, required this.movieId});
   final int movieId;
 
   @override
-  State<MovieDetailPage> createState() => _MovieDetailPageState();
+  ConsumerState<MovieDetailPage> createState() => _MovieDetailPageState();
 }
 
-class _MovieDetailPageState extends State<MovieDetailPage> {
+class _MovieDetailPageState extends ConsumerState<MovieDetailPage> {
   @override
   Widget build(BuildContext context) {
+    final uid = ref.watch(uidProvider).value;
     String url = 'https://image.tmdb.org/t/p/original';
     final movieController = MovieController();
     return Scaffold(
@@ -61,7 +65,11 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
                         ),
                         Expanded(child: Container()),
                         IconButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            ref
+                                .read(favoritesControllerProvider.notifier)
+                                .addFavController(uid, snapshot.data['id'].toString());
+                          },
                           icon: const Icon(Icons.favorite_border),
                           alignment: Alignment.centerRight,
                           iconSize: 40,
