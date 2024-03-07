@@ -1,5 +1,7 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_application_2/controllers/movie_controller.dart';
 import 'package:flutter_application_2/pages/widgets/movie_detail_widgets/download_button.dart';
 import 'package:flutter_application_2/pages/widgets/movie_detail_widgets/movie_detail_image.dart';
@@ -8,6 +10,7 @@ import 'package:flutter_application_2/pages/widgets/movie_detail_widgets/play_bu
 import 'package:flutter_application_2/pages/widgets/movie_detail_widgets/rating.dart';
 import 'package:flutter_application_2/pages/widgets/movie_detail_widgets/trailer_on_YT.dart';
 import 'package:google_fonts/google_fonts.dart';
+
 class MovieDetailPage extends StatefulWidget {
   const MovieDetailPage({super.key, required this.movieId});
   final int movieId;
@@ -46,12 +49,24 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Column(
                   children: [
-                    Text(
-                      snapshot.data["title"].toString(),
-                      style: GoogleFonts.aBeeZee(
-                        color: Colors.white,
-                        fontSize: 25,
-                      ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          snapshot.data["title"].toString(),
+                          style: GoogleFonts.aBeeZee(
+                            color: Colors.white,
+                            fontSize: 25,
+                          ),
+                        ),
+                        Expanded(child: Container()),
+                        IconButton(
+                          onPressed: () {},
+                          icon: const Icon(Icons.favorite_border),
+                          alignment: Alignment.centerRight,
+                          iconSize: 40,
+                        )
+                      ],
                     ),
                     const SizedBox(height: 20),
                     //MOVIE IMAGE
