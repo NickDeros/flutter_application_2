@@ -11,6 +11,7 @@ import 'package:flutter_application_2/pages/widgets/movie_detail_widgets/play_bu
 import 'package:flutter_application_2/pages/widgets/movie_detail_widgets/rating.dart';
 import 'package:flutter_application_2/pages/widgets/movie_detail_widgets/trailer_on_YT.dart';
 import 'package:flutter_application_2/repositories/auth_repository.dart';
+import 'package:flutter_application_2/repositories/favorites_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -26,6 +27,13 @@ class _MovieDetailPageState extends ConsumerState<MovieDetailPage> {
   @override
   Widget build(BuildContext context) {
     final uid = ref.watch(uidProvider).value;
+    final favoritesState =
+        ref.watch(favoritesControllerProvider(widget.movieId.toString(), uid));
+
+    final isFavorite =
+        ref.watch(getFavoritesProvider(widget.movieId.toString(), uid));
+    debugPrint('isFavorite.toString()');
+    debugPrint(isFavorite.toString());
     String url = 'https://image.tmdb.org/t/p/original';
     final movieController = MovieController();
     return Scaffold(
@@ -64,16 +72,37 @@ class _MovieDetailPageState extends ConsumerState<MovieDetailPage> {
                           ),
                         ),
                         Expanded(child: Container()),
-                        IconButton(
-                          onPressed: () {
-                            ref
-                                .read(favoritesControllerProvider.notifier)
-                                .addFavController(uid, snapshot.data['id'].toString());
-                          },
-                          icon: const Icon(Icons.favorite_border),
-                          alignment: Alignment.centerRight,
-                          iconSize: 40,
-                        )
+                        favoritesState.isLoading
+                            ? CircularProgressIndicator()
+                            : favoritesState.value! 
+                                ? IconButton(
+                                    onPressed: () {
+                                      ref
+                                          .read(favoritesControllerProvider(
+                                                  widget.movieId.toString(),
+                                                  uid)
+                                              .notifier)
+                                          .removeFavController(uid,
+                                              snapshot.data['id'].toString());
+                                    },
+                                    icon: const Icon(Icons.favorite),
+                                    alignment: Alignment.centerRight,
+                                    iconSize: 40,
+                                  )
+                                : IconButton(
+                                    onPressed: () {
+                                      ref
+                                          .read(favoritesControllerProvider(
+                                                  widget.movieId.toString(),
+                                                  uid)
+                                              .notifier)
+                                          .addFavController(uid,
+                                              snapshot.data['id'].toString());
+                                    },
+                                    icon: const Icon(Icons.favorite_border),
+                                    alignment: Alignment.centerRight,
+                                    iconSize: 40,
+                                  )
                       ],
                     ),
                     const SizedBox(height: 20),
