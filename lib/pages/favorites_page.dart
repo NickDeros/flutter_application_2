@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_2/controllers/favorites_controller.dart';
 import 'package:flutter_application_2/repositories/auth_repository.dart';
+import 'package:flutter_application_2/repositories/favorites_repository.dart';
+import 'package:flutter_application_2/repositories/movie_repository.dart';
 import 'package:flutter_application_2/utils/constants.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -35,8 +37,10 @@ class FavoritesPage extends ConsumerWidget {
                     physics: NeverScrollableScrollPhysics(),
                     itemCount: movieList.value!.length,
                     itemBuilder: (context, index) {
-                      debugPrint('movieList.value![index].poster_path.toString()');
-                      debugPrint(movieList.value![index]['poster_path'].toString());
+                      debugPrint(
+                          'movieList.value![index].poster_path.toString()');
+                      debugPrint(
+                          movieList.value![index]['poster_path'].toString());
                       return ClipRRect(
                         child: GestureDetector(
                           onTap: () {

@@ -68,6 +68,5 @@ Future userFavorites(UserFavoritesRef ref, String userId) async {
   debugPrint(movielist.toString());
   //elenco film
   //usare getmovie con movieid
-
   return movielist;
 }
