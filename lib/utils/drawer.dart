@@ -1,17 +1,23 @@
+import 'dart:convert';
+import 'dart:ffi';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_2/controllers/auth_controller.dart';
+import 'package:flutter_application_2/controllers/user_controller.dart';
+import 'package:flutter_application_2/repositories/auth_repository.dart';
 import 'package:flutter_application_2/repositories/user_repository.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-class MyDrawer extends StatefulWidget {
+class MyDrawer extends ConsumerStatefulWidget {
   const MyDrawer({super.key});
 
   @override
-  State<MyDrawer> createState() => _MyDrawerState();
+  ConsumerState<MyDrawer> createState() => _MyDrawerState();
 }
 
-class _MyDrawerState extends State<MyDrawer> {
+class _MyDrawerState extends ConsumerState<MyDrawer> {
   // Future getUser() {
   //   final user = FirebaseAuth.instance.currentUser!;
   //   final userRepo = UserRepo();
@@ -21,43 +27,20 @@ class _MyDrawerState extends State<MyDrawer> {
 
   @override
   Widget build(BuildContext context) {
+    final uid = ref.watch(uidProvider).value;
+    final email = ref.watch(userControllerProvider).value!.email;
+    final userState = ref.watch(userUpdateProvider(uid));
+
     final auth = AuthController();
     return Drawer(
       backgroundColor: const Color.fromARGB(255, 0, 23, 31),
       child: ListView(
         children: [
           UserAccountsDrawerHeader(
-            accountName: Text('name'),
-            accountEmail: Text('email'),
-            // accountName: FutureBuilder(
-            //   future: getUser(),
-            //   builder: (BuildContext context, AsyncSnapshot snapshot) {
-            //     if (snapshot.hasData) {
-            //       return Padding(
-            //         padding: const EdgeInsets.only(top: 20.0),
-            //         child: Text(
-            //             "${snapshot.data["first_name"]} ${snapshot.data["last_name"]}!",
-            //             style: Theme.of(context).textTheme.titleSmall),
-            //       );
-            //     } else {
-            //       return const CircularProgressIndicator();
-            //     }
-            //   },
-            // ),
-            // accountEmail: FutureBuilder(
-            //   future: getUser(),
-            //   builder: (BuildContext context, AsyncSnapshot snapshot) {
-            //     if (snapshot.hasData) {
-            //       return Text("${snapshot.data["email"]}!",
-            //           style: Theme.of(context).textTheme.titleSmall);
-            //     } else {
-            //       return const CircularProgressIndicator();
-            //     }
-            //   },
-            // ),
-            // currentAccountPicture: const CircleAvatar(
-            //   backgroundImage: NetworkImage(''),
-            // ),
+            accountName: Text(userState.value?['first_name'] +
+                " " +
+                userState.value?['last_name']),
+            accountEmail: Text(email!),
             currentAccountPicture: Container(
               width: 28,
               height: 28,
@@ -84,7 +67,7 @@ class _MyDrawerState extends State<MyDrawer> {
               context.go('/profile_page');
             },
           ),
-            //FAVORITES
+          //FAVORITES
           ListTile(
             leading: const Icon(
               Icons.favorite,
@@ -98,7 +81,7 @@ class _MyDrawerState extends State<MyDrawer> {
               context.go('/favorites_page');
             },
           ),
-            // LOGOUT
+          // LOGOUT
           ListTile(
             leading: const Icon(
               Icons.logout,

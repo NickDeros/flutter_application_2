@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_application_2/models/user_model.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -22,7 +23,7 @@ class UserRepo {
   //Get all User fields from Firestore
   Future<Map<String, dynamic>> getUser({required uid}) async {
     final snapshot = await firestore.collection('users').doc(uid).get();
-    Map<String, dynamic>? query = snapshot.data();
+    final query = snapshot.data();
     return query!;
   }
 }
