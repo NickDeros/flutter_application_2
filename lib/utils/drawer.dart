@@ -18,106 +18,101 @@ class MyDrawer extends ConsumerStatefulWidget {
 }
 
 class _MyDrawerState extends ConsumerState<MyDrawer> {
-  // Future getUser() {
-  //   final user = FirebaseAuth.instance.currentUser!;
-  //   final userRepo = UserRepo();
-  //   final userData = userRepo.getUser(uid: user.uid);
-  //   return userData;
-  // }
-
   @override
   Widget build(BuildContext context) {
     final uid = ref.watch(uidProvider).value;
-    final email = ref.watch(userControllerProvider).value!.email;
     final userState = ref.watch(userUpdateProvider(uid));
-
+    final userController = ref.watch(userControllerProvider);
     final auth = AuthController();
     return Drawer(
       backgroundColor: const Color.fromARGB(255, 0, 23, 31),
-      child: ListView(
-        children: [
-          UserAccountsDrawerHeader(
-            accountName: Text(userState.value?['first_name'] +
-                " " +
-                userState.value?['last_name']),
-            accountEmail: Text(email!),
-            currentAccountPicture: Container(
-              width: 28,
-              height: 28,
-              decoration: const BoxDecoration(
-                color: Colors.white,
-                shape: BoxShape.circle,
-              ),
-            ),
-            decoration: const BoxDecoration(
-              color: Color.fromARGB(255, 0, 23, 31),
-            ),
-          ),
-          // PROFILE
-          ListTile(
-            leading: const Icon(
-              Icons.person,
-              color: Colors.white,
-            ),
-            title: Text(
-              "Profile",
-              style: Theme.of(context).textTheme.titleSmall,
-            ),
-            onTap: () {
-              context.go('/profile_page');
-            },
-          ),
-          //FAVORITES
-          ListTile(
-            leading: const Icon(
-              Icons.favorite,
-              color: Colors.white,
-            ),
-            title: Text(
-              "Favorites",
-              style: Theme.of(context).textTheme.titleSmall,
-            ),
-            onTap: () {
-              context.go('/favorites_page');
-            },
-          ),
-          // LOGOUT
-          ListTile(
-            leading: const Icon(
-              Icons.logout,
-              color: Colors.white,
-            ),
-            title: Text(
-              "Logout",
-              style: Theme.of(context).textTheme.titleSmall,
-            ),
-            onTap: () {
-              showDialog(
-                context: context,
-                builder: (context) {
-                  return AlertDialog(
-                    title: const Text('Are you sure to log out?'),
-                    actions: <Widget>[
-                      TextButton(
-                        child: const Text('Cancel'),
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
+      child: userState.hasError
+          ? Text('ERROR')
+          : userState.isLoading
+              ? Container()
+              : ListView(
+                  children: [
+                    UserAccountsDrawerHeader(
+                      accountName: Text(userState.value!['first_name']),
+                      accountEmail:
+                          Text(userController.value!.email.toString()),
+                      currentAccountPicture: Container(
+                        width: 28,
+                        height: 28,
+                        decoration: const BoxDecoration(
+                          color: Colors.white,
+                          shape: BoxShape.circle,
+                        ),
                       ),
-                      TextButton(
-                        child: const Text('Confirm'),
-                        onPressed: () {
-                          auth.logOut();
-                        },
+                      decoration: const BoxDecoration(
+                        color: Color.fromARGB(255, 0, 23, 31),
                       ),
-                    ],
-                  );
-                },
-              );
-            },
-          ),
-        ],
-      ),
+                    ),
+                    // PROFILE
+                    ListTile(
+                      leading: const Icon(
+                        Icons.person,
+                        color: Colors.white,
+                      ),
+                      title: Text(
+                        "Profile",
+                        style: Theme.of(context).textTheme.titleSmall,
+                      ),
+                      onTap: () {
+                        context.go('/profile_page');
+                      },
+                    ),
+                    //FAVORITES
+                    ListTile(
+                      leading: const Icon(
+                        Icons.favorite,
+                        color: Colors.white,
+                      ),
+                      title: Text(
+                        "Favorites",
+                        style: Theme.of(context).textTheme.titleSmall,
+                      ),
+                      onTap: () {
+                        context.go('/favorites_page');
+                      },
+                    ),
+                    // LOGOUT
+                    ListTile(
+                      leading: const Icon(
+                        Icons.logout,
+                        color: Colors.white,
+                      ),
+                      title: Text(
+                        "Logout",
+                        style: Theme.of(context).textTheme.titleSmall,
+                      ),
+                      onTap: () {
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            return AlertDialog(
+                              title: const Text('Are you sure to log out?'),
+                              actions: <Widget>[
+                                TextButton(
+                                  child: const Text('Cancel'),
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                ),
+                                TextButton(
+                                  child: const Text('Confirm'),
+                                  onPressed: () {
+                                    auth.logOut();
+                                  },
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      },
+                    ),
+                  ],
+                ),
     );
   }
 }
