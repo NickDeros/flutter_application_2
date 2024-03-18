@@ -73,7 +73,6 @@ class _MovieDetailPageState extends ConsumerState<MovieDetailPage> {
                 print("movie detail data");
                 print(snapshot.data['production_companies'].length);
               }
-
               return SingleChildScrollView(
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -82,11 +81,15 @@ class _MovieDetailPageState extends ConsumerState<MovieDetailPage> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text(
-                            snapshot.data["title"].toString(),
-                            style: GoogleFonts.aBeeZee(
-                              color: Colors.white,
-                              fontSize: 25,
+                          Flexible(
+                            flex: 2,
+                            child: Text(
+                              snapshot.data["title"].toString(),
+                              softWrap: true,
+                              style: GoogleFonts.aBeeZee(
+                                color: Colors.white,
+                                fontSize: 25,
+                              ),
                             ),
                           ),
                           Expanded(child: Container()),

@@ -20,12 +20,12 @@ class FavoritesPage extends ConsumerWidget {
     debugPrint(movieList.toString());
     return Scaffold(
       appBar: AppBar(),
-      body: Center(
-        child: movieList.isLoading
-            ? CircularProgressIndicator()
-            : movieList.hasError
-                ? Text(movieList.asError.toString())
-                : GridView.builder(
+      body: movieList.isLoading
+          ? Center(child: CircularProgressIndicator())
+          : movieList.hasError
+              ? Text(movieList.asError.toString())
+              : SingleChildScrollView(
+                child: GridView.builder(
                     gridDelegate:
                         const SliverGridDelegateWithFixedCrossAxisCount(
                       childAspectRatio: 0.75,
@@ -68,7 +68,7 @@ class FavoritesPage extends ConsumerWidget {
                       );
                     },
                   ),
-      ),
+              ),
     );
   }
 }

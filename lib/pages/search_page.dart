@@ -8,7 +8,9 @@ import 'package:go_router/go_router.dart';
 class SearchPage extends ConsumerWidget {
   const SearchPage({super.key});
   static final _formKey = GlobalKey<FormState>();
-  @override
+ 
+
+@override
   Widget build(BuildContext context, WidgetRef ref) {
     final searchState = ref.watch(searchControllerProvider);
     final myController = TextEditingController();
@@ -25,18 +27,18 @@ class SearchPage extends ConsumerWidget {
             //FORM
             Center(
               child: Form(
-                onChanged: () {
-                  String keyword = myController.text.trim();
-                  ref.read(saveKeywordProvider.notifier).updateKeyword(keyword);
-                  ref
-                      .read(searchControllerProvider.notifier)
-                      .searchByKeyword(keyword);
-                  print('sono search PRESSED');
-                  print(searchState.hasValue.toString());
-                },
                 key: _formKey,
                 child: TextFormField(
-                  controller: myController..text = keywordState,
+                  onChanged: (value) {
+                    // String keyword = myController.text.trim();
+                    ref.read(saveKeywordProvider.notifier).state = value;
+                    ref
+                        .read(searchControllerProvider.notifier)
+                        .searchByKeyword(value);
+                    print('sono search PRESSED');
+                    print(searchState.hasValue.toString());
+                  },
+                  // controller: myController..text = keywordState,
                   decoration: InputDecoration(
                     prefixIcon: const Icon(Icons.search),
                     enabledBorder: OutlineInputBorder(
