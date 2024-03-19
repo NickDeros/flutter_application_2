@@ -1,10 +1,12 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 class NotificationApi {
   static final _notification = FlutterLocalNotificationsPlugin();
 
   static void init() {
+    debugPrint('notification INIT');
     _notification.initialize(
       const InitializationSettings(
         android: AndroidInitializationSettings('@mipmap/ic_launcher'),
@@ -16,6 +18,8 @@ class NotificationApi {
   static pushNotification(
     RemoteMessage message,
   ) async {
+    debugPrint('PUSH NOTIFICATION');
+    debugPrint(message.toString());
     var androidPlatformChannelSpecifics = const AndroidNotificationDetails(
       'channed id',
       'channel name',
