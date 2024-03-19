@@ -61,7 +61,7 @@ class _LoginPageState extends State<LoginPage> {
                   child: Column(
                     children: [
                       // email textfield
-                      EmailTextField(emailController: _emailController),
+                      EmailTextField(emailController: _emailController, key: Key('email_field_login'),),
                       const SizedBox(height: 10),
 
                       //password textfield

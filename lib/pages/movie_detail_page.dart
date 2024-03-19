@@ -153,6 +153,7 @@ class _MovieDetailPageState extends ConsumerState<MovieDetailPage> {
                       ),
                       const SizedBox(height: 10),
                       TrailerOnYT(movieVideos: movieVideos),
+                      SizedBox(height: 20)
                     ],
                   ),
                 ),

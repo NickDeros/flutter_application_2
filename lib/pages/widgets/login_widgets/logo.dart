@@ -9,7 +9,7 @@ class Logo extends StatelessWidget {
     return Column(
       children: [
         const Icon(
-          Icons.android_rounded,
+          Icons.local_play,
           size: 100,
         ),
         const SizedBox(height: 25),
@@ -17,7 +17,7 @@ class Logo extends StatelessWidget {
         //Hello Again
 
         Text(
-          'Helo Again!',
+          'Hello Again!',
           style: GoogleFonts.bebasNeue(
             fontSize: 52,
           ),

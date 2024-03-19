@@ -7,8 +7,7 @@ class TrailerOnYT extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return 
-    movieVideos.length == 0
+    return movieVideos.length == 0
         ? const Text("no trailer")
         : ListView.builder(
             physics: const NeverScrollableScrollPhysics(),
@@ -22,9 +21,14 @@ class TrailerOnYT extends StatelessWidget {
                   mute: false,
                 ),
               );
-              return YoutubePlayer(
-                controller: controller,
-                showVideoProgressIndicator: true,
+              return YoutubePlayerBuilder(
+                player: YoutubePlayer(
+                  controller: controller,
+                  showVideoProgressIndicator: true,
+                ),
+                builder: (context, player) => Container(
+                  child: player,
+                ),
               );
             },
           );
