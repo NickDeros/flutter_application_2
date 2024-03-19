@@ -46,6 +46,9 @@ dependencies:
   readmore: ^2.2.0
   flutter_riverpod: ^2.4.10
   riverpod_annotation: ^2.3.4
+  firebase_messaging: ^14.7.20
+  rxdart: ^0.27.7
+  flutter_local_notifications: ^17.0.0
 
 dev_dependencies:
   flutter_test:
