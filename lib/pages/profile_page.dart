@@ -9,6 +9,7 @@ import 'package:flutter_application_2/models/user_model.dart';
 import 'package:flutter_application_2/repositories/auth_repository.dart';
 import 'package:flutter_application_2/repositories/user_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -62,21 +63,27 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                 Stack(
                   children: [
                     Container(
-                      width: 100,
-                      height: 100,
+                      width: 120,
+                      height: 120,
                       decoration: const BoxDecoration(
                         color: Colors.white,
                         shape: BoxShape.circle,
                       ),
-                      child: const Icon(
-                        Icons.person,
-                        color: Colors.black,
-                        size: 50,
-                      ),
+                      child: userState.value?['imgUrl'] == null
+                          ? const Icon(
+                              Icons.person,
+                              color: Colors.black,
+                              size: 50,
+                            )
+                          : CircleAvatar(
+                              backgroundImage: NetworkImage(
+                                '${userState.value!['imgUrl']}',
+                              ),
+                            ),
                     ),
                     Positioned(
                       bottom: 0,
-                      left: 55,
+                      left: 75,
                       child: Container(
                         width: 40,
                         height: 40,
@@ -86,9 +93,32 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                         ),
                         child: IconButton(
                           onPressed: () {
-                            ref
-                                .read(imageUploadProvider.notifier)
-                                .uploadImage(userState.value);
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) => AlertDialog(
+                                title: Text('Edit Image'),
+                                actions: [
+                                  TextButton(
+                                      onPressed: () {
+                                        ref
+                                            .read(imageUploadProvider.notifier)
+                                            .uploadImage(
+                                                userState.value, "camera");
+                                        context.pop();
+                                      },
+                                      child: Text('Camera')),
+                                  TextButton(
+                                      onPressed: () {
+                                        ref
+                                            .read(imageUploadProvider.notifier)
+                                            .uploadImage(
+                                                userState.value, "gallery");
+                                        context.pop();
+                                      },
+                                      child: Text('Gallery')),
+                                ],
+                              ),
+                            );
                           },
                           icon: const Icon(
                             Icons.add_a_photo_outlined,

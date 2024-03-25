@@ -6,7 +6,7 @@ part of 'storage_controller.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$imageUploadHash() => r'11d68852f922b11ba1341da3c3813e16deacbc0e';
+String _$imageUploadHash() => r'5235ffb3629f313eebdc0a951807e1082876b7ec';
 
 /// See also [ImageUpload].
 @ProviderFor(ImageUpload)
