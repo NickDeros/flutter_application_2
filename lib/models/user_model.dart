@@ -20,6 +20,7 @@ class UserModel with _$UserModel {
   required int age,
   required String registration_date,
   required String uid,
+  String? imgUrl,
   }) = _UserModel;
 
   factory UserModel.fromJson(Map<String, Object?> json)

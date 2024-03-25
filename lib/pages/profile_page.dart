@@ -1,11 +1,16 @@
+import 'dart:io';
+
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_2/controllers/storage_controller.dart';
 import 'package:flutter_application_2/controllers/user_controller.dart';
 import 'package:flutter_application_2/models/user_model.dart';
 import 'package:flutter_application_2/repositories/auth_repository.dart';
 import 'package:flutter_application_2/repositories/user_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:image_picker/image_picker.dart';
 
 class ProfilePage extends ConsumerStatefulWidget {
   ProfilePage({super.key});
@@ -13,6 +18,8 @@ class ProfilePage extends ConsumerStatefulWidget {
   @override
   ConsumerState<ProfilePage> createState() => _ProfilePageState();
 }
+
+String imageUrl = '';
 
 class _ProfilePageState extends ConsumerState<ProfilePage> {
   @override
@@ -25,6 +32,8 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
 
     final userState = ref.watch(userUpdateProvider(uid));
     final userController = ref.watch(userControllerProvider);
+
+    final imageState = ref.watch(imageUploadProvider);
 
     final TextEditingController emailController =
         TextEditingController(text: userState.value?['email']);
@@ -50,15 +59,47 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
             child: Column(
               children: [
                 const SizedBox(height: 25),
-                Container(
-                  width: 40,
-                  height: 40,
-                  decoration: const BoxDecoration(
-                    color: Colors.white,
-                    shape: BoxShape.circle,
-                  ),
+                Stack(
+                  children: [
+                    Container(
+                      width: 100,
+                      height: 100,
+                      decoration: const BoxDecoration(
+                        color: Colors.white,
+                        shape: BoxShape.circle,
+                      ),
+                      child: const Icon(
+                        Icons.person,
+                        color: Colors.black,
+                        size: 50,
+                      ),
+                    ),
+                    Positioned(
+                      bottom: 0,
+                      left: 55,
+                      child: Container(
+                        width: 40,
+                        height: 40,
+                        decoration: const BoxDecoration(
+                          color: Color.fromARGB(255, 198, 197, 197),
+                          shape: BoxShape.circle,
+                        ),
+                        child: IconButton(
+                          onPressed: () {
+                            ref
+                                .read(imageUploadProvider.notifier)
+                                .uploadImage(userState.value);
+                          },
+                          icon: const Icon(
+                            Icons.add_a_photo_outlined,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-                const SizedBox(height: 10),
+                const SizedBox(height: 12),
                 userState.hasError
                     ? Text(userState.error.toString())
                     : userState.isLoading
