@@ -4,6 +4,7 @@ import 'package:flutter_application_2/pages/forgot_password_page.dart';
 import 'package:flutter_application_2/pages/home_page.dart';
 import 'package:flutter_application_2/pages/login_page.dart';
 import 'package:flutter_application_2/pages/movie_detail_page.dart';
+import 'package:flutter_application_2/pages/plans_page.dart';
 import 'package:flutter_application_2/pages/profile_page.dart';
 import 'package:flutter_application_2/pages/register_page.dart';
 import 'package:flutter_application_2/pages/search_page.dart';
@@ -32,6 +33,12 @@ GoRouter goRouter(ref) {
           return null;
         },
         routes: [
+          GoRoute(
+              path: 'plans_page',
+              name: 'plans_page',
+              builder: (context, state) {
+                return const PlansPage();
+              }),
           GoRoute(
               path: 'favorites_page',
               name: 'favorites_page',

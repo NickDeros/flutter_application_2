@@ -13,29 +13,12 @@ class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
 }
 
 class CustomAppBarState extends State<CustomAppBar> {
-  // Future getUser() {
-  //   final user = FirebaseAuth.instance.currentUser!;
-  //   final userRepo = UserRepo();
-  //   final userData = userRepo.getUser(uid: user.uid);
-  //   return userData;
-  // }
-
   @override
   Widget build(BuildContext context) {
     return AppBar(
       toolbarHeight: 100,
       backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
-      // title: FutureBuilder(
-      //   future: getUser(),
-      //   builder: (BuildContext context, AsyncSnapshot snapshot) {
-      //     if (snapshot.hasData) {
-      //       return Text("Hi ${snapshot.data["first_name"]}!",
-      //           style: Theme.of(context).textTheme.titleLarge);
-      //     } else {
-      //       return const CircularProgressIndicator();
-      //     }
-      //   },
-      // ),
+      title: Text("...", style: TextStyle(color: Colors.white)),
       actions: [
         // ICON SEARCH
         IconButton(

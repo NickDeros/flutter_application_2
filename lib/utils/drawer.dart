@@ -1,12 +1,8 @@
-import 'dart:convert';
-import 'dart:ffi';
-
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_2/controllers/auth_controller.dart';
 import 'package:flutter_application_2/controllers/user_controller.dart';
 import 'package:flutter_application_2/repositories/auth_repository.dart';
-import 'package:flutter_application_2/repositories/user_repository.dart';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
@@ -37,12 +33,23 @@ class _MyDrawerState extends ConsumerState<MyDrawer> {
                       accountEmail:
                           Text(userController.value!.email.toString()),
                       currentAccountPicture: Container(
-                        width: 28,
-                        height: 28,
+                        width: 120,
+                        height: 120,
                         decoration: const BoxDecoration(
                           color: Colors.white,
                           shape: BoxShape.circle,
                         ),
+                        child: userState.value?['imgUrl'] == null
+                            ? const Icon(
+                                Icons.person,
+                                color: Colors.black,
+                                size: 50,
+                              )
+                            : CircleAvatar(
+                                backgroundImage: NetworkImage(
+                                  '${userState.value!['imgUrl']}',
+                                ),
+                              ),
                       ),
                       decoration: const BoxDecoration(
                         color: Color.fromARGB(255, 0, 23, 31),
@@ -60,6 +67,20 @@ class _MyDrawerState extends ConsumerState<MyDrawer> {
                       ),
                       onTap: () {
                         context.go('/profile_page');
+                      },
+                    ),
+                    //PLANS
+                    ListTile(
+                      leading: const Icon(
+                        Icons.monetization_on_outlined,
+                        color: Colors.white,
+                      ),
+                      title: Text(
+                        "Premium Plans",
+                        style: Theme.of(context).textTheme.titleSmall,
+                      ),
+                      onTap: () {
+                        context.go('/plans_page');
                       },
                     ),
                     //FAVORITES
