@@ -14,7 +14,7 @@ class PlansPage extends StatelessWidget {
           child: Column(
             children: [
               FirstTable(),
-              SizedBox(width: 20),
+              SizedBox(height: 40,),
               SecondTable(),
             ],
           ),

@@ -15,7 +15,7 @@ class StripeRepo {
   static const String stripeSecret = String.fromEnvironment("STRIPE_PRIV_KEY");
   static const String stripePublic = String.fromEnvironment("STRIPE_API_KEY");
 
-  Future<void> stripeMakePayment() async {
+  Future<bool> stripeMakePayment() async {
     try {
       Stripe.publishableKey = stripePublic;
       paymentIntent = await createPaymentIntent('100', 'EUR');
@@ -41,30 +41,37 @@ class StripeRepo {
                   style: ThemeMode.dark,
                   merchantDisplayName: 'Store Demo'))
           .then((value) {
+        debugPrint("value.toString()");
         debugPrint(value.toString());
       });
-
       //STEP 3: Display Payment sheet
-      displayPaymentSheet();
+      final bool displaySheet = await displayPaymentSheet();
+      return displaySheet;
     } on StripeConfigException catch (e) {
       debugPrint('MAKE PAYMENT STRIPE EXCEPTION');
       debugPrint(e.toString());
       debugPrint(e.toString());
       debugPrint(e.message.toString());
       Fluttertoast.showToast(msg: e.toString());
+      rethrow;
     } catch (e) {
       debugPrint('MAKE PAYMENT');
       debugPrint(e.toString());
       Fluttertoast.showToast(msg: e.toString());
+      rethrow;
     }
   }
 
-  displayPaymentSheet() async {
+  Future displayPaymentSheet() async {
     try {
       // 3. display the payment sheet.
-      await Stripe.instance.presentPaymentSheet();
-
-      Fluttertoast.showToast(msg: 'Payment succesfully completed');
+      await Stripe.instance
+          .presentPaymentSheet()
+          .then((value) => debugPrint(value.toString()));
+      debugPrint("sheet.toString()");
+      debugPrint('PAYMENT STATUS');
+      debugPrint(paymentIntent!['status']);
+      return true;
     } on Exception catch (e) {
       if (e is StripeException) {
         debugPrint('DISPLAY PAYMENT IF TRUE');

@@ -26,6 +26,7 @@ mixin _$UserModel {
   int get age => throw _privateConstructorUsedError;
   String get registration_date => throw _privateConstructorUsedError;
   String get uid => throw _privateConstructorUsedError;
+  String? get role => throw _privateConstructorUsedError;
   String? get imgUrl => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -46,6 +47,7 @@ abstract class $UserModelCopyWith<$Res> {
       int age,
       String registration_date,
       String uid,
+      String? role,
       String? imgUrl});
 }
 
@@ -68,6 +70,7 @@ class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
     Object? age = null,
     Object? registration_date = null,
     Object? uid = null,
+    Object? role = freezed,
     Object? imgUrl = freezed,
   }) {
     return _then(_value.copyWith(
@@ -95,6 +98,10 @@ class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
           ? _value.uid
           : uid // ignore: cast_nullable_to_non_nullable
               as String,
+      role: freezed == role
+          ? _value.role
+          : role // ignore: cast_nullable_to_non_nullable
+              as String?,
       imgUrl: freezed == imgUrl
           ? _value.imgUrl
           : imgUrl // ignore: cast_nullable_to_non_nullable
@@ -118,6 +125,7 @@ abstract class _$$UserModelImplCopyWith<$Res>
       int age,
       String registration_date,
       String uid,
+      String? role,
       String? imgUrl});
 }
 
@@ -138,6 +146,7 @@ class __$$UserModelImplCopyWithImpl<$Res>
     Object? age = null,
     Object? registration_date = null,
     Object? uid = null,
+    Object? role = freezed,
     Object? imgUrl = freezed,
   }) {
     return _then(_$UserModelImpl(
@@ -165,6 +174,10 @@ class __$$UserModelImplCopyWithImpl<$Res>
           ? _value.uid
           : uid // ignore: cast_nullable_to_non_nullable
               as String,
+      role: freezed == role
+          ? _value.role
+          : role // ignore: cast_nullable_to_non_nullable
+              as String?,
       imgUrl: freezed == imgUrl
           ? _value.imgUrl
           : imgUrl // ignore: cast_nullable_to_non_nullable
@@ -183,6 +196,7 @@ class _$UserModelImpl with DiagnosticableTreeMixin implements _UserModel {
       required this.age,
       required this.registration_date,
       required this.uid,
+      this.role = 'default',
       this.imgUrl});
 
   factory _$UserModelImpl.fromJson(Map<String, dynamic> json) =>
@@ -201,11 +215,14 @@ class _$UserModelImpl with DiagnosticableTreeMixin implements _UserModel {
   @override
   final String uid;
   @override
+  @JsonKey()
+  final String? role;
+  @override
   final String? imgUrl;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'UserModel(first_name: $first_name, last_name: $last_name, email: $email, age: $age, registration_date: $registration_date, uid: $uid, imgUrl: $imgUrl)';
+    return 'UserModel(first_name: $first_name, last_name: $last_name, email: $email, age: $age, registration_date: $registration_date, uid: $uid, role: $role, imgUrl: $imgUrl)';
   }
 
   @override
@@ -219,6 +236,7 @@ class _$UserModelImpl with DiagnosticableTreeMixin implements _UserModel {
       ..add(DiagnosticsProperty('age', age))
       ..add(DiagnosticsProperty('registration_date', registration_date))
       ..add(DiagnosticsProperty('uid', uid))
+      ..add(DiagnosticsProperty('role', role))
       ..add(DiagnosticsProperty('imgUrl', imgUrl));
   }
 
@@ -236,13 +254,14 @@ class _$UserModelImpl with DiagnosticableTreeMixin implements _UserModel {
             (identical(other.registration_date, registration_date) ||
                 other.registration_date == registration_date) &&
             (identical(other.uid, uid) || other.uid == uid) &&
+            (identical(other.role, role) || other.role == role) &&
             (identical(other.imgUrl, imgUrl) || other.imgUrl == imgUrl));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, first_name, last_name, email,
-      age, registration_date, uid, imgUrl);
+      age, registration_date, uid, role, imgUrl);
 
   @JsonKey(ignore: true)
   @override
@@ -266,6 +285,7 @@ abstract class _UserModel implements UserModel {
       required final int age,
       required final String registration_date,
       required final String uid,
+      final String? role,
       final String? imgUrl}) = _$UserModelImpl;
 
   factory _UserModel.fromJson(Map<String, dynamic> json) =
@@ -283,6 +303,8 @@ abstract class _UserModel implements UserModel {
   String get registration_date;
   @override
   String get uid;
+  @override
+  String? get role;
   @override
   String? get imgUrl;
   @override

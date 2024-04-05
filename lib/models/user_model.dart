@@ -20,6 +20,7 @@ class UserModel with _$UserModel {
   required int age,
   required String registration_date,
   required String uid,
+  @Default('default') String? role,
   String? imgUrl,
   }) = _UserModel;
 

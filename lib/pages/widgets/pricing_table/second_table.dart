@@ -34,111 +34,12 @@ class SecondTable extends StatelessWidget {
             height: 30,
           ),
           const Text(
-            '\$22.99/mo',
+            '\$200/mo',
             style: TextStyle(
                 color: Colors.orangeAccent,
                 fontSize: 15,
                 letterSpacing: 2,
                 fontWeight: FontWeight.bold),
-          ),
-          const SizedBox(
-            height: 30,
-          ),
-          const Text(
-            '100GB Disk Space',
-            style: TextStyle(
-              color: Colors.white54,
-              fontSize: 13,
-              letterSpacing: 2,
-            ),
-          ),
-          const SizedBox(
-            height: 5,
-          ),
-          const Text(
-            '10GB Bandwidth',
-            style: TextStyle(
-              color: Colors.white54,
-              fontSize: 13,
-              letterSpacing: 2,
-            ),
-          ),
-          const SizedBox(
-            height: 5,
-          ),
-          const Text(
-            '10 Sub Domain',
-            style: TextStyle(
-              color: Colors.white54,
-              fontSize: 13,
-              letterSpacing: 2,
-            ),
-          ),
-          const SizedBox(
-            height: 5,
-          ),
-          const Text(
-            'Free Transfer',
-            style: TextStyle(
-              color: Colors.white54,
-              fontSize: 13,
-              letterSpacing: 2,
-            ),
-          ),
-          const SizedBox(
-            height: 5,
-          ),
-          const Text(
-            '10 Email Account',
-            style: TextStyle(
-              color: Colors.white54,
-              fontSize: 12,
-              letterSpacing: 2,
-            ),
-          ),
-          const SizedBox(
-            height: 5,
-          ),
-          const Text(
-            'SMTP',
-            style: TextStyle(
-              color: Colors.white54,
-              fontSize: 13,
-              letterSpacing: 2,
-            ),
-          ),
-          const SizedBox(
-            height: 5,
-          ),
-          const Text(
-            'Email Support',
-            style: TextStyle(
-              color: Colors.white54,
-              fontSize: 13,
-              letterSpacing: 2,
-            ),
-          ),
-          const SizedBox(
-            height: 5,
-          ),
-          const Text(
-            '10 Database',
-            style: TextStyle(
-              color: Colors.white54,
-              fontSize: 13,
-              letterSpacing: 2,
-            ),
-          ),
-          const SizedBox(
-            height: 5,
-          ),
-          const Text(
-            'Secure SSL Service',
-            style: TextStyle(
-              color: Colors.white54,
-              fontSize: 13,
-              letterSpacing: 2,
-            ),
           ),
           const SizedBox(
             height: 30,

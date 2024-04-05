@@ -15,8 +15,6 @@ class UserRepo {
   }
 
   Future<void> editUser({required UserModel user}) async {
-    print('user repoooo');
-    print(user);
     await firestore.collection('users').doc(user.uid).set(user.toJson());
   }
 
@@ -25,6 +23,21 @@ class UserRepo {
     final snapshot = await firestore.collection('users').doc(uid).get();
     final query = snapshot.data();
     return query!;
+  }
+
+  Future<UserModel> getUserModel({required uid}) async {
+    final snapshot = await firestore.collection('users').doc(uid).get();
+    final query = snapshot.data();
+    UserModel userModel = UserModel(
+        first_name: query!['first_name'],
+        last_name: query['last_name'],
+        email: query['email'],
+        age: query['age'],
+        registration_date: query['registration_date'],
+        role: query['role'],
+        imgUrl: query['imgUrl'],
+        uid: uid);
+    return userModel;
   }
 }
 
